@@ -7,13 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C96E42B82A15B0ED0065FABC /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96E42B72A15B0ED0065FABC /* SettingsModel.swift */; };
+		C995B2CC2A09C9B00037572A /* SteeringModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2CB2A09C9B00037572A /* SteeringModel.swift */; };
+		C995B2CE2A09CA160037572A /* AudioFeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2CD2A09CA160037572A /* AudioFeedbackModel.swift */; };
+		C995B2D12A0B21420037572A /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D02A0B21420037572A /* CompassView.swift */; };
+		C995B2D32A0B21600037572A /* SteeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D22A0B21600037572A /* SteeringView.swift */; };
+		C995B2D52A0B218D0037572A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D42A0B218D0037572A /* SettingsView.swift */; };
 		C9E48FC32A06236800E1D702 /* viscompassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FC22A06236800E1D702 /* viscompassApp.swift */; };
-		C9E48FC52A06236800E1D702 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FC42A06236800E1D702 /* ContentView.swift */; };
+		C9E48FC52A06236800E1D702 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FC42A06236800E1D702 /* MainView.swift */; };
 		C9E48FC72A06236900E1D702 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FC62A06236900E1D702 /* Assets.xcassets */; };
 		C9E48FCA2A06236900E1D702 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FC92A06236900E1D702 /* Preview Assets.xcassets */; };
 		C9E48FD42A06236900E1D702 /* viscompassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FD32A06236900E1D702 /* viscompassTests.swift */; };
 		C9E48FDE2A06236900E1D702 /* viscompassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FDD2A06236900E1D702 /* viscompassUITests.swift */; };
 		C9E48FE02A06236900E1D702 /* viscompassUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FDF2A06236900E1D702 /* viscompassUITestsLaunchTests.swift */; };
+		C9E48FEF2A06245E00E1D702 /* AudioFeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */; };
+		C9E48FF12A06245E00E1D702 /* ObservationHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FEE2A06245E00E1D702 /* ObservationHistory.swift */; };
+		C9E48FFA2A06249200E1D702 /* side-drum-icon-27836.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */; };
+		C9E48FFB2A06249200E1D702 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF32A06249200E1D702 /* click_low.wav */; };
+		C9E48FFC2A06249200E1D702 /* Compass_512.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF42A06249200E1D702 /* Compass_512.png */; };
+		C9E48FFD2A06249200E1D702 /* drum200.wav in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF52A06249200E1D702 /* drum200.wav */; };
+		C9E48FFE2A06249200E1D702 /* Compass_1024.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF62A06249200E1D702 /* Compass_1024.png */; };
+		C9E48FFF2A06249200E1D702 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF72A06249200E1D702 /* Default-568h@2x.png */; };
+		C9E490002A06249200E1D702 /* Compass_1024_noalpha.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF82A06249200E1D702 /* Compass_1024_noalpha.png */; };
+		C9E490012A06249200E1D702 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF92A06249200E1D702 /* click_high.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +50,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C96E42B72A15B0ED0065FABC /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsModel.swift; path = viscompass/SettingsModel.swift; sourceTree = "<group>"; };
+		C995B2CB2A09C9B00037572A /* SteeringModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeringModel.swift; sourceTree = "<group>"; };
+		C995B2CD2A09CA160037572A /* AudioFeedbackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFeedbackModel.swift; sourceTree = "<group>"; };
+		C995B2D02A0B21420037572A /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
+		C995B2D22A0B21600037572A /* SteeringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeringView.swift; sourceTree = "<group>"; };
+		C995B2D42A0B218D0037572A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C9E48FBF2A06236800E1D702 /* viscompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = viscompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FC22A06236800E1D702 /* viscompassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassApp.swift; sourceTree = "<group>"; };
-		C9E48FC42A06236800E1D702 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C9E48FC42A06236800E1D702 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C9E48FC62A06236900E1D702 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9E48FC92A06236900E1D702 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C9E48FCF2A06236900E1D702 /* viscompassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = viscompassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +66,16 @@
 		C9E48FD92A06236900E1D702 /* viscompassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = viscompassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FDD2A06236900E1D702 /* viscompassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITests.swift; sourceTree = "<group>"; };
 		C9E48FDF2A06236900E1D702 /* viscompassUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFeedbackController.swift; sourceTree = "<group>"; };
+		C9E48FEE2A06245E00E1D702 /* ObservationHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationHistory.swift; sourceTree = "<group>"; };
+		C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "side-drum-icon-27836.png"; sourceTree = "<group>"; };
+		C9E48FF32A06249200E1D702 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
+		C9E48FF42A06249200E1D702 /* Compass_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_512.png; sourceTree = "<group>"; };
+		C9E48FF52A06249200E1D702 /* drum200.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drum200.wav; sourceTree = "<group>"; };
+		C9E48FF62A06249200E1D702 /* Compass_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_1024.png; sourceTree = "<group>"; };
+		C9E48FF72A06249200E1D702 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C9E48FF82A06249200E1D702 /* Compass_1024_noalpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_1024_noalpha.png; sourceTree = "<group>"; };
+		C9E48FF92A06249200E1D702 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,9 +103,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C995B2CF2A0B21160037572A /* ContentViews */ = {
+			isa = PBXGroup;
+			children = (
+				C9E48FC42A06236800E1D702 /* MainView.swift */,
+				C995B2D02A0B21420037572A /* CompassView.swift */,
+				C995B2D22A0B21600037572A /* SteeringView.swift */,
+				C995B2D42A0B218D0037572A /* SettingsView.swift */,
+			);
+			path = ContentViews;
+			sourceTree = "<group>";
+		};
 		C9E48FB62A06236800E1D702 = {
 			isa = PBXGroup;
 			children = (
+				C96E42B72A15B0ED0065FABC /* SettingsModel.swift */,
+				C9E48FF92A06249200E1D702 /* click_high.wav */,
+				C9E48FF32A06249200E1D702 /* click_low.wav */,
+				C9E48FF42A06249200E1D702 /* Compass_512.png */,
+				C9E48FF82A06249200E1D702 /* Compass_1024_noalpha.png */,
+				C9E48FF62A06249200E1D702 /* Compass_1024.png */,
+				C9E48FF72A06249200E1D702 /* Default-568h@2x.png */,
+				C9E48FF52A06249200E1D702 /* drum200.wav */,
+				C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */,
 				C9E48FC12A06236800E1D702 /* viscompass */,
 				C9E48FD22A06236900E1D702 /* viscompassTests */,
 				C9E48FDC2A06236900E1D702 /* viscompassUITests */,
@@ -94,10 +146,14 @@
 		C9E48FC12A06236800E1D702 /* viscompass */ = {
 			isa = PBXGroup;
 			children = (
+				C995B2CF2A0B21160037572A /* ContentViews */,
 				C9E48FC22A06236800E1D702 /* viscompassApp.swift */,
-				C9E48FC42A06236800E1D702 /* ContentView.swift */,
+				C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */,
+				C9E48FEE2A06245E00E1D702 /* ObservationHistory.swift */,
 				C9E48FC62A06236900E1D702 /* Assets.xcassets */,
 				C9E48FC82A06236900E1D702 /* Preview Content */,
+				C995B2CB2A09C9B00037572A /* SteeringModel.swift */,
+				C995B2CD2A09CA160037572A /* AudioFeedbackModel.swift */,
 			);
 			path = viscompass;
 			sourceTree = "<group>";
@@ -231,6 +287,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E48FFE2A06249200E1D702 /* Compass_1024.png in Resources */,
+				C9E490002A06249200E1D702 /* Compass_1024_noalpha.png in Resources */,
+				C9E48FFB2A06249200E1D702 /* click_low.wav in Resources */,
+				C9E490012A06249200E1D702 /* click_high.wav in Resources */,
+				C9E48FFD2A06249200E1D702 /* drum200.wav in Resources */,
+				C9E48FFA2A06249200E1D702 /* side-drum-icon-27836.png in Resources */,
+				C9E48FFC2A06249200E1D702 /* Compass_512.png in Resources */,
+				C9E48FFF2A06249200E1D702 /* Default-568h@2x.png in Resources */,
 				C9E48FCA2A06236900E1D702 /* Preview Assets.xcassets in Resources */,
 				C9E48FC72A06236900E1D702 /* Assets.xcassets in Resources */,
 			);
@@ -257,8 +321,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9E48FC52A06236800E1D702 /* ContentView.swift in Sources */,
+				C995B2D12A0B21420037572A /* CompassView.swift in Sources */,
+				C995B2D32A0B21600037572A /* SteeringView.swift in Sources */,
+				C9E48FF12A06245E00E1D702 /* ObservationHistory.swift in Sources */,
+				C995B2D52A0B218D0037572A /* SettingsView.swift in Sources */,
+				C9E48FC52A06236800E1D702 /* MainView.swift in Sources */,
+				C9E48FEF2A06245E00E1D702 /* AudioFeedbackController.swift in Sources */,
+				C96E42B82A15B0ED0065FABC /* SettingsModel.swift in Sources */,
+				C995B2CC2A09C9B00037572A /* SteeringModel.swift in Sources */,
 				C9E48FC32A06236800E1D702 /* viscompassApp.swift in Sources */,
+				C995B2CE2A09CA160037572A /* AudioFeedbackModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
