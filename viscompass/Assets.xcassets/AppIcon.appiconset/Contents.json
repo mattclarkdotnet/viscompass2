@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Compass_1024.png",
+      "filename" : "Compass_1024_noalpha.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
