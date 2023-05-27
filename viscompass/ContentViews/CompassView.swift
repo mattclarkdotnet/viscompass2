@@ -10,14 +10,44 @@ import SwiftUI
 
 
 struct CompassView: View {
+    @EnvironmentObject var steeringModel: SteeringModel
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Compass")
-        }
-        .padding()
+            VStack {
+                Text(" ").font(.title) // to keep layout consistent across tabs
+                HStack {
+                    Image(systemName: "questionmark.circle")
+                        .resizable()
+                        .frame(width:50, height:50)
+                    Spacer()
+                    Text(" ").font(.system(size: 50)) // for layout consistency across views
+                    Spacer()
+                    Button(action: {
+                        steeringModel.toggleAudioFeedback()
+                    }) {
+                        Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
+                            .resizable()
+                            .frame(width:50, height:50)
+                    }
+                }
+            }
+            Divider()
+            Spacer()
+            VStack {
+                Text("Heading º").font(.title)
+                Text(Int(steeringModel.headingSmoothed).description).font(.system(size: 200))
+            }.padding(EdgeInsets(top:0, leading:0, bottom:150, trailing:0))
+            Spacer()
+            ResponsivenessPickerView()
+        }.padding()
     }
 }
 
+
+struct Previews_CompassView_Previews: PreviewProvider {
+    static var previews: some View {
+        CompassView()
+            .environmentObject(SteeringModel())
+    }
+}

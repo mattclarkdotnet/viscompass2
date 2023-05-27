@@ -6,14 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
-class SettingsModel: ObservableObject {
-    @Published var defaultTolerance = 0
-    @Published var defaultResponsiveness = 0
-    @Published var defaultFeedbackType = 0
-    @Published var tackDegrees = 100
-    @Published var targetAdjustDegrees = 10
-    @Published var northType: northtype = .magneticnorth
-    @Published var smoothCompassHeading = true
+
+class SettingsStorage: ObservableObject {
+    @AppStorage("responsivenessIndex") public var responsivenessIndex = 2
+    @AppStorage("toleranceDegrees") public var toleranceDegrees = 10
+    @AppStorage("feedbackType") public var feedbackType: OnCourseFeedbackType = .drum
+    @AppStorage("tackDegrees") public var tackDegrees = 100
+    @AppStorage("targetAdjustDegrees") public var targetAdjustDegrees = 10
+    @AppStorage("northType") public var northType: NorthType = .magneticnorth
 }
-

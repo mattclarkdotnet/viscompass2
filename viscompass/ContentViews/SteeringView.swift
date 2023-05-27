@@ -10,26 +10,58 @@ import SwiftUI
 
 struct SteeringView: View {
     @EnvironmentObject var steeringModel: SteeringModel
-    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
     
+    @GestureState private var isDetectingLongPressPlus = false
+    @State private var completedLongPressPlus = false
+    @GestureState private var isDetectingLongPressMinus = false
+    @State private var completedLongPressMinus = false
+
+    var longPressTargetPlus: some Gesture {
+        LongPressGesture(minimumDuration: 2)
+            .updating($isDetectingLongPressPlus) { currentState, gestureState,
+                    transaction in
+                gestureState = currentState
+                transaction.animation = Animation.easeIn(duration: 2.0)
+            }
+            .onEnded { finished in
+                self.completedLongPressPlus = finished
+                logger.debug("Long press on starboard detected")
+                steeringModel.tack(turn: .stbd)
+            }
+    }
+    
+    var longPressTargetMinus: some Gesture {
+        LongPressGesture(minimumDuration: 2)
+            .updating($isDetectingLongPressMinus) { currentState, gestureState,
+                    transaction in
+                gestureState = currentState
+                transaction.animation = Animation.easeIn(duration: 2.0)
+            }
+            .onEnded { finished in
+                self.completedLongPressMinus = finished
+                logger.debug("Long press on port detected")
+                steeringModel.tack(turn: .port)
+            }
+    }
+
     var body: some View {
         VStack {
-            HStack {
-                Image(systemName: "questionmark.circle")
-                    .resizable()
-                    .frame(width:50, height:50)
-                Spacer()
-                VStack {
-                    Text("Heading").font(.title)
-                    Text(Int(steeringModel.headingCurrentTrue).description).font(.largeTitle)
-                }
-                Spacer()
-                Button(action: {
-                    audioFeedbackModel.toggleFeedback()
-                }) {
-                    Image(systemName: audioFeedbackModel.audioFeedbackOn ? "play.circle" : "pause.circle")
+            VStack {
+                Text("Heading").font(.title)
+                HStack {
+                    Image(systemName: "questionmark.circle")
                         .resizable()
                         .frame(width:50, height:50)
+                    Spacer()
+                    Text(Int(steeringModel.headingSmoothed).description + "º").font(.system(size: 50))
+                    Spacer()
+                    Button(action: {
+                        steeringModel.toggleAudioFeedback()
+                    }) {
+                        Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
+                            .resizable()
+                            .frame(width:50, height:50)
+                    }
                 }
             }
             Divider()
@@ -37,117 +69,59 @@ struct SteeringView: View {
                 Text("Target").font(.title)
                 HStack {
                     Button(action: steeringModel.decreaseTarget) {
-                        Image(systemName: "minus.rectangle")
+                        Image(systemName: "minus.square")
                             .resizable()
                             .frame(width:50, height:50)
-                            .foregroundColor(.red)
+                            .gesture(longPressTargetMinus)
+                            
                     }
                     Spacer()
                     VStack {
-                        Text(Int(steeringModel.headingTarget).description)
-                            .font(.largeTitle)
-                            .frame(width: 150)
+                        Text(Int(steeringModel.headingTarget).description + "º").font(.system(size: 50))
                     }
                     Spacer()
                     Button(action: steeringModel.increaseTarget) {
-                        Image(systemName: "plus.rectangle")
+                        Image(systemName: "plus.square")
                             .resizable()
                             .frame(width:50, height:50)
-                            .foregroundColor(.green)
+                            .gesture(longPressTargetPlus)
                     }
+                }
+            }.background(self.isDetectingLongPressMinus ? Color.red :
+                         self.isDetectingLongPressPlus ? Color.green :
+                            Color(UIColor.systemBackground))
+            Spacer()
+            Divider()
+            VStack {
+                Text("Steer").font(.title)
+                HStack {
+                    Image(systemName: "arrowtriangle.left.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(steeringModel.correctingNow() == .port ? .red : .gray)
+                    
+                    VStack {
+                        Text(Int(steeringModel.correctionAmount).description + "º")
+                            .font(.system(size: 50))
+                    }.frame(minWidth: 130)
+                    Image(systemName: "arrowtriangle.right.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(steeringModel.correctingNow() == .stbd ? .green : .gray)
+                    
                 }
             }
             Divider()
-            HStack {
-                Image(systemName: "arrowtriangle.left.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.red)
-
-                Text(Int(steeringModel.correctionAmount).description).font(.largeTitle)
-                    .frame(width: 150)
-                Image(systemName: "arrowtriangle.right.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.green)
-
-            }
-            Divider()
+            Spacer()
             VStack {
                 Spacer()
                 FeedbackPickerView()
                 TolerancePickerView()
                 ResponsivenessPickerView()
             }
-        }
-        .padding()
+        }.padding()
+        
     }
 }
 
 
-struct FeedbackPickerView: View {
-//    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
-    @EnvironmentObject var steeringModel: SteeringModel
-    
-    @State private var selectedFeedback: OnCourseFeedbackType = .drum // TODO: take from settings
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("On course feedback")
-            Picker("On course feedback", selection: $selectedFeedback) {
-                Text("Drum").tag(OnCourseFeedbackType.drum)
-                Text("Heading").tag(OnCourseFeedbackType.heading)
-                Text("None").tag(OnCourseFeedbackType.off)
-            }
-            .pickerStyle(.segmented)
-            .onChange(of: selectedFeedback) {
-                feedbackType in
-                steeringModel.audioFeedbackModel.setOnCourseFeedbackType(feedbacktype: feedbackType)
-                steeringModel.updateModel()
-            }
-            
-        }
-    }
-}
-
-struct TolerancePickerView: View {
-//    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
-    @EnvironmentObject var steeringModel: SteeringModel
-    
-    @State private var selectedTolerance = 10
-    let options = [5,10,15,20]
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Tolerance")
-            Picker("Tolerance", selection: $selectedTolerance) {
-                ForEach(options, id: \.self) {
-                    Text("\($0)º").tag(Double($0))
-                }
-            }
-            .pickerStyle(.segmented)
-            .onChange(of: selectedTolerance) {
-                tolerance in
-                steeringModel.setTolerance(newTolerance: Double(tolerance))
-                steeringModel.audioFeedbackModel.updateAudioFeedback(urgency: steeringModel.correctionUrgency, direction: steeringModel.correctionDirection, heading: steeringModel.headingSmoothed)
-            }
-        }
-    }
-}
-
-struct ResponsivenessPickerView: View {
-    @State private var choice = ""
-    var options = ["SS", "S", "M", "Q", "QQ"]
-
-    var body: some View {
-        VStack(alignment:.leading) {
-            Text("Responsiveness")
-            Picker("Responsiveness", selection: $choice) {
-                ForEach(options, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.segmented)
-        }
-    }
-}

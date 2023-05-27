@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-//    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
-//    @EnvironmentObject var steeringModel: SteeringModel
-//    
-    
     @State private var selection: Tab = .navigation
+
     enum Tab {
         case navigation
         case compass
@@ -43,7 +40,5 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
             .environmentObject(SteeringModel())
-            .environmentObject(AudioFeedbackModel())
-            .environmentObject(SettingsModel())
     }
 }
