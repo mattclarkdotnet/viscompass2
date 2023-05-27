@@ -13,6 +13,7 @@
 		C995B2D12A0B21420037572A /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D02A0B21420037572A /* CompassView.swift */; };
 		C995B2D32A0B21600037572A /* SteeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D22A0B21600037572A /* SteeringView.swift */; };
 		C995B2D52A0B218D0037572A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D42A0B218D0037572A /* SettingsView.swift */; };
+		C9CE15FC2A21F93C00389886 /* Compass_120.png in Resources */ = {isa = PBXBuildFile; fileRef = C9CE15FB2A21F93C00389886 /* Compass_120.png */; };
 		C9E48FC32A06236800E1D702 /* viscompassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FC22A06236800E1D702 /* viscompassApp.swift */; };
 		C9E48FC52A06236800E1D702 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FC42A06236800E1D702 /* MainView.swift */; };
 		C9E48FC72A06236900E1D702 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FC62A06236900E1D702 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		C995B2D02A0B21420037572A /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		C995B2D22A0B21600037572A /* SteeringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeringView.swift; sourceTree = "<group>"; };
 		C995B2D42A0B218D0037572A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C9CE15FB2A21F93C00389886 /* Compass_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_120.png; sourceTree = "<group>"; };
 		C9E48FBF2A06236800E1D702 /* viscompass2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = viscompass2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FC22A06236800E1D702 /* viscompassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassApp.swift; sourceTree = "<group>"; };
 		C9E48FC42A06236800E1D702 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				C9E48FF92A06249200E1D702 /* click_high.wav */,
 				C9E48FF32A06249200E1D702 /* click_low.wav */,
+				C9CE15FB2A21F93C00389886 /* Compass_120.png */,
 				C9E48FF42A06249200E1D702 /* Compass_512.png */,
 				C9E48FF82A06249200E1D702 /* Compass_1024_noalpha.png */,
 				C9E48FF62A06249200E1D702 /* Compass_1024.png */,
@@ -288,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9E48FFE2A06249200E1D702 /* Compass_1024.png in Resources */,
+				C9CE15FC2A21F93C00389886 /* Compass_120.png in Resources */,
 				C9E490002A06249200E1D702 /* Compass_1024_noalpha.png in Resources */,
 				C9E48FFB2A06249200E1D702 /* click_low.wav in Resources */,
 				C9E490012A06249200E1D702 /* click_high.wav in Resources */,
@@ -486,6 +490,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"viscompass/Preview Content\"";
@@ -519,6 +524,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"viscompass/Preview Content\"";

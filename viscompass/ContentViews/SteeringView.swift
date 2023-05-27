@@ -72,9 +72,9 @@ struct SteeringView: View {
                         Image(systemName: "minus.square")
                             .resizable()
                             .frame(width:50, height:50)
-                            .gesture(longPressTargetMinus)
                             
-                    }
+                            
+                    }.gesture(longPressTargetMinus)
                     Spacer()
                     VStack {
                         Text(Int(steeringModel.headingTarget).description + "º").font(.system(size: 50))
@@ -84,8 +84,8 @@ struct SteeringView: View {
                         Image(systemName: "plus.square")
                             .resizable()
                             .frame(width:50, height:50)
-                            .gesture(longPressTargetPlus)
-                    }
+                            
+                    }.gesture(longPressTargetPlus)
                 }
             }.background(self.isDetectingLongPressMinus ? Color.red :
                          self.isDetectingLongPressPlus ? Color.green :
