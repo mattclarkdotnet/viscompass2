@@ -56,14 +56,14 @@
 		C995B2D02A0B21420037572A /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		C995B2D22A0B21600037572A /* SteeringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeringView.swift; sourceTree = "<group>"; };
 		C995B2D42A0B218D0037572A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		C9E48FBF2A06236800E1D702 /* viscompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = viscompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E48FBF2A06236800E1D702 /* viscompass2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = viscompass2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FC22A06236800E1D702 /* viscompassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassApp.swift; sourceTree = "<group>"; };
 		C9E48FC42A06236800E1D702 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C9E48FC62A06236900E1D702 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9E48FC92A06236900E1D702 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C9E48FCF2A06236900E1D702 /* viscompassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = viscompassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E48FCF2A06236900E1D702 /* viscompass2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = viscompass2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FD32A06236900E1D702 /* viscompassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassTests.swift; sourceTree = "<group>"; };
-		C9E48FD92A06236900E1D702 /* viscompassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = viscompassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E48FD92A06236900E1D702 /* viscompass2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = viscompass2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FDD2A06236900E1D702 /* viscompassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITests.swift; sourceTree = "<group>"; };
 		C9E48FDF2A06236900E1D702 /* viscompassUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFeedbackController.swift; sourceTree = "<group>"; };
@@ -135,9 +135,9 @@
 		C9E48FC02A06236800E1D702 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C9E48FBF2A06236800E1D702 /* viscompass.app */,
-				C9E48FCF2A06236900E1D702 /* viscompassTests.xctest */,
-				C9E48FD92A06236900E1D702 /* viscompassUITests.xctest */,
+				C9E48FBF2A06236800E1D702 /* viscompass2.app */,
+				C9E48FCF2A06236900E1D702 /* viscompass2Tests.xctest */,
+				C9E48FD92A06236900E1D702 /* viscompass2UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,9 +186,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C9E48FBE2A06236800E1D702 /* viscompass */ = {
+		C9E48FBE2A06236800E1D702 /* viscompass2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9E48FE32A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass" */;
+			buildConfigurationList = C9E48FE32A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass2" */;
 			buildPhases = (
 				C9E48FBB2A06236800E1D702 /* Sources */,
 				C9E48FBC2A06236800E1D702 /* Frameworks */,
@@ -198,14 +198,14 @@
 			);
 			dependencies = (
 			);
-			name = viscompass;
+			name = viscompass2;
 			productName = viscompass;
-			productReference = C9E48FBF2A06236800E1D702 /* viscompass.app */;
+			productReference = C9E48FBF2A06236800E1D702 /* viscompass2.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C9E48FCE2A06236900E1D702 /* viscompassTests */ = {
+		C9E48FCE2A06236900E1D702 /* viscompass2Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9E48FE62A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompassTests" */;
+			buildConfigurationList = C9E48FE62A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass2Tests" */;
 			buildPhases = (
 				C9E48FCB2A06236900E1D702 /* Sources */,
 				C9E48FCC2A06236900E1D702 /* Frameworks */,
@@ -216,14 +216,14 @@
 			dependencies = (
 				C9E48FD12A06236900E1D702 /* PBXTargetDependency */,
 			);
-			name = viscompassTests;
+			name = viscompass2Tests;
 			productName = viscompassTests;
-			productReference = C9E48FCF2A06236900E1D702 /* viscompassTests.xctest */;
+			productReference = C9E48FCF2A06236900E1D702 /* viscompass2Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C9E48FD82A06236900E1D702 /* viscompassUITests */ = {
+		C9E48FD82A06236900E1D702 /* viscompass2UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9E48FE92A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompassUITests" */;
+			buildConfigurationList = C9E48FE92A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass2UITests" */;
 			buildPhases = (
 				C9E48FD52A06236900E1D702 /* Sources */,
 				C9E48FD62A06236900E1D702 /* Frameworks */,
@@ -234,9 +234,9 @@
 			dependencies = (
 				C9E48FDB2A06236900E1D702 /* PBXTargetDependency */,
 			);
-			name = viscompassUITests;
+			name = viscompass2UITests;
 			productName = viscompassUITests;
-			productReference = C9E48FD92A06236900E1D702 /* viscompassUITests.xctest */;
+			productReference = C9E48FD92A06236900E1D702 /* viscompass2UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -262,7 +262,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C9E48FBA2A06236800E1D702 /* Build configuration list for PBXProject "viscompass" */;
+			buildConfigurationList = C9E48FBA2A06236800E1D702 /* Build configuration list for PBXProject "viscompass2" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -275,9 +275,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C9E48FBE2A06236800E1D702 /* viscompass */,
-				C9E48FCE2A06236900E1D702 /* viscompassTests */,
-				C9E48FD82A06236900E1D702 /* viscompassUITests */,
+				C9E48FBE2A06236800E1D702 /* viscompass2 */,
+				C9E48FCE2A06236900E1D702 /* viscompass2Tests */,
+				C9E48FD82A06236900E1D702 /* viscompass2UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -356,12 +356,12 @@
 /* Begin PBXTargetDependency section */
 		C9E48FD12A06236900E1D702 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9E48FBE2A06236800E1D702 /* viscompass */;
+			target = C9E48FBE2A06236800E1D702 /* viscompass2 */;
 			targetProxy = C9E48FD02A06236900E1D702 /* PBXContainerItemProxy */;
 		};
 		C9E48FDB2A06236900E1D702 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9E48FBE2A06236800E1D702 /* viscompass */;
+			target = C9E48FBE2A06236800E1D702 /* viscompass2 */;
 			targetProxy = C9E48FDA2A06236900E1D702 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -563,7 +563,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/viscompass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/viscompass";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/viscompass2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/viscompass2";
 			};
 			name = Debug;
 		};
@@ -583,7 +583,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/viscompass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/viscompass";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/viscompass2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/viscompass2";
 			};
 			name = Release;
 		};
@@ -626,7 +626,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C9E48FBA2A06236800E1D702 /* Build configuration list for PBXProject "viscompass" */ = {
+		C9E48FBA2A06236800E1D702 /* Build configuration list for PBXProject "viscompass2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E48FE12A06236900E1D702 /* Debug */,
@@ -635,7 +635,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9E48FE32A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass" */ = {
+		C9E48FE32A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E48FE42A06236900E1D702 /* Debug */,
@@ -644,7 +644,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9E48FE62A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompassTests" */ = {
+		C9E48FE62A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass2Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E48FE72A06236900E1D702 /* Debug */,
@@ -653,7 +653,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9E48FE92A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompassUITests" */ = {
+		C9E48FE92A06236900E1D702 /* Build configuration list for PBXNativeTarget "viscompass2UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E48FEA2A06236900E1D702 /* Debug */,
