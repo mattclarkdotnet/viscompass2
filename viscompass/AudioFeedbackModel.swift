@@ -47,13 +47,60 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
     private var feedbackDirection: Turn = .none
     
     private var audioTimer: Timer?
+    
     private let speechSynthesiser: AVSpeechSynthesizer = AVSpeechSynthesizer()
     private let sndHigh: SystemSoundID = createSound("click_high", fileExt: "wav")
     private let sndLow: SystemSoundID = createSound("click_low", fileExt: "wav")
     private let sndNeutral: SystemSoundID = createSound("drum200", fileExt: "wav")
     private var sndHeading: AVSpeechUtterance?
     
-    func nextSoundAndInterval() -> (AudioFeedbackSound, TimeInterval) {
+    func updateHeading(heading: Double) {
+        let headingStr = Int(heading).description // e.g. '130'
+        let headingDigits = headingStr.map({"\($0) "})
+        sndHeading = AVSpeechUtterance(string: "heading \(headingDigits)")
+    }
+    
+    func updateUrgencyAndDirection(urgency: Int, direction: Turn) {
+        if urgency == feedbackUrgency && direction == feedbackDirection {
+            return
+        }
+        feedbackUrgency = urgency
+        feedbackDirection = direction
+        updateAudioFeedback()
+    }
+
+    func toggleFeedback() {
+        if audioFeedbackOn {
+            audioFeedbackOn = false
+            audioTimer?.invalidate()
+        }
+        else {
+            audioFeedbackOn = true
+            playAudioFeedbackSound() // play a sound immediately upon toggling audio back on
+            createTimer()
+        }
+        logger.debug("Toggled audio feedback, new is \(self.audioFeedbackOn)")
+    }
+    
+    func setOnCourseFeedbackType(feedbacktype: OnCourseFeedbackType) {
+        logger.debug("Setting on course feedback type to \(feedbacktype.rawValue)")
+        onCourseFeedbackType = feedbacktype
+        updateAudioFeedback()
+    }
+    
+    func createTimer() {
+        // logger.debug("Creating new timer")
+        audioTimer?.invalidate()
+        if feedbackInterval > 0 {
+            audioTimer = Timer.scheduledTimer(timeInterval: feedbackInterval,
+                                              target: self,
+                                              selector: #selector(AudioFeedbackModel.playAudioFeedbackSound),
+                                              userInfo: nil,
+                                              repeats: true)
+        }
+    }
+    
+    private func nextSoundAndInterval() -> (AudioFeedbackSound, TimeInterval) {
         if feedbackUrgency == 0 {
             // we are within tolerance
             switch onCourseFeedbackType {
@@ -70,104 +117,83 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
         }
     }
     
-    func updateHeading(heading: Double) {
-        let headingStr = Int(heading).description // e.g. '130'
-        let headingDigits = headingStr.map({"\($0) "})
-        sndHeading = AVSpeechUtterance(string: "heading \(headingDigits)")
-        updateAudioFeedback()
-    }
-    
-    func updateUrgencyAndDirection(urgency: Int, direction: Turn) {
-        feedbackUrgency = urgency
-        feedbackDirection = direction
-        updateAudioFeedback()
-    }
-
-    func toggleFeedback() {
-        // This gets used in PlayAudioFeedbackSound - essentially all the timers keep running but the sound output gets muted
-        audioFeedbackOn.toggle()
-        logger.debug("Toggled audio feedback, new is \(self.audioFeedbackOn)")
-    }
-    
-    func setOnCourseFeedbackType(feedbacktype: OnCourseFeedbackType) {
-        logger.debug("Setting on course feedback type to \(feedbacktype.rawValue)")
-        onCourseFeedbackType = feedbacktype
-        updateAudioFeedback()
-    }
-    
-    func updateAudioFeedback() {
+    private func updateAudioFeedback() {
+        let (nextFeedbackSound, nextFeedbackInterval) = nextSoundAndInterval()
+        if nextFeedbackSound == feedbackSound && nextFeedbackInterval == feedbackInterval {
+            logger.debug("interval and sound are unchanged")
+            return
+        }
         let lastFeedbackInterval = feedbackInterval
-        (feedbackSound, feedbackInterval) = nextSoundAndInterval()
-        logger.debug("updating audio feedback, sound \(self.feedbackSound.rawValue), interval \(self.feedbackInterval)")
+        feedbackSound = nextFeedbackSound
+        feedbackInterval = nextFeedbackInterval
+        logger.debug("updated audio feedback, sound \(self.feedbackSound.rawValue), interval \(self.feedbackInterval)")
         
-        if let audioTimer {
-           // A timer already exists, so reuse it - the sound played will be determined by the new value we just put into feedbackSound
-            // Imagine the compass heading was due to be read out in 10 seconds time, but we are off course and want to send a beep feedback in 1 second
-            // Or imagine we were about to send an audio beep in 1 second, but we are on course now and want to send a heading update in 15 seconds
-            let remainingInterval = DateInterval(start: Date(), end: audioTimer.fireDate).duration
-            let consumedInterval = lastFeedbackInterval - remainingInterval
-            logger.debug("A timer exists: \(consumedInterval) consumed, \(remainingInterval) remaining")
-            // The user is expecting feedback on a rhythm, try to meet that expectation when we change feedback.
-            // This code could be contracted but it wuld become a lot harder to understand
-            if feedbackInterval <= remainingInterval {
-                // The new feedback interval must be less than the one before, as it is less than the remaining time in the current timer.direction
-                // Imagine we were giving headings every 15 seconds, but now we are off course - we don't want to wait e.g. 12 seconds to give that feedback
-                // So we might have a new interval of 2 seconds, whereas the old was 5 and there are 3 remaining
-                // In this scenario we should play the new sound immediately
-                logger.debug("feedbackInterval < remainingInterval, playing immediately")
-                audioTimer.invalidate()
-                playAudioFeedbackSound()
-            }
-            else if feedbackInterval <= consumedInterval {
-                // The new feedback interval is less than the time already consumed in the past interval, so fire immediately
-                // Imagine we have 1 second left on a 5 second interval, and the new interval is 2 seconds.  We don't want to wait that extra second
-                logger.debug("feedbackInterval < consumedInterval, playing immediately")
-                audioTimer.invalidate()
-                playAudioFeedbackSound()
-            }
-            else {
-                // The new feedback interval is longer than the time already consumed.  We want to reset the timer's firing date so that we experience no shortening,
-                // but we also don't wait the whle of the ld interval.  IMagine we were n a 15 second interval, and only 1 second is consumed, and the new timer is 2 seconds
-                // in that scenario we want to wait an additional second then play the new sound
-                audioTimer.fireDate = Date(timeIntervalSinceNow: feedbackInterval - consumedInterval)
-                logger.debug("feedbackInterval > consumedInterval, adjusting timer, next fireDate is \(self.audioTimer!.fireDate)")
-            }
+        if !audioFeedbackOn {
+            // just return, updateAudioFeedback will be called again when audio feedback is turned on
+            return
+        }
+        
+        guard let audioTimer else {
+            logger.debug("No current timer, playing sound immediately then creating timer")
+            playAudioFeedbackSound()
+            createTimer()
+            return
+        }
+        
+        // audioTimer must not be nil, so invlidate and create a new one
+        let nowDate = Date()
+        let fireDate = audioTimer.fireDate
+        audioTimer.invalidate()
+        
+        if fireDate <= nowDate {
+            logger.debug("fireDate is in past, playing immediately then creating timer")
+            audioTimer.invalidate()
+            playAudioFeedbackSound()
+            createTimer()
+            return
+        }
+        
+        // The scheduled timer firing date is in the future
+        // The user is expecting feedback on a rhythm, try to meet that expectation when we change feedback.
+        let remainingInterval = DateInterval(start: nowDate, end: fireDate).duration
+        let consumedInterval = lastFeedbackInterval - remainingInterval
+        logger.debug("A timer exists: \(consumedInterval) consumed, \(remainingInterval) remaining")
+        if feedbackInterval <= consumedInterval {
+            // The new feedback interval is less than the time already consumed in the past interval, so fire immediately
+            // Imagine we have 1 second left on a 5 second interval Iso 4 seconds consumed), and the new interval is 2 seconds.  We don't want to wait that extra second
+            logger.debug("feedbackInterval < consumedInterval, playing immediately then creating timer")
+            playAudioFeedbackSound()
+            createTimer()
         }
         else {
-            // No timer currently exists, so no sound is scheduled.  Call playAudioFeedbackSound which will play the sound now, and schedule the next timer
-            // This _should_ be safe as everything is executing on the UI thread....
-            logger.debug("No current timer")
-            playAudioFeedbackSound()
+            // The new feedback interval is longer than the time already consumed.  We want to reset the timer's firing date so that we experience no shortening,
+            // but we also don't wait the whole of the last interval.  Imagine we were in a 15 second interval, and only 1 second is consumed, and the new timer is 2 seconds
+            // in that scenario we want to wait an additional second then play the new sound
+            let newDelay = self.feedbackInterval - consumedInterval
+            logger.debug("feedbackInterval > consumedInterval, creating timer to wait \(newDelay) seconds, then play sound and schedule timer")
+            self.audioTimer = Timer.scheduledTimer(withTimeInterval: newDelay,
+                                                   repeats: false)   { _ in
+                                                                       self.playAudioFeedbackSound()
+                                                                       self.createTimer()
+                                                                       }
         }
     }
     
-    @objc func playAudioFeedbackSound() {
-        if audioFeedbackOn {
-            logger.debug("playAudioFeedbackSound called, audioFeedbackOn is \(self.audioFeedbackOn.description), sound is \(self.feedbackSound.rawValue)")
-            switch feedbackSound {
-            case .none:
-                break
-            case .drum:
-                AudioServicesPlaySystemSound(sndNeutral)
-            case .high:
-                AudioServicesPlaySystemSound(sndHigh)
-            case .low:
-                AudioServicesPlaySystemSound(sndLow)
-            case .heading, .compass:
-                if let sndHeading {
-                    speechSynthesiser.speak(sndHeading)
-                }
+    @objc private func playAudioFeedbackSound() {
+        //logger.debug("playAudioFeedbackSound called, audioFeedbackOn is \(self.audioFeedbackOn.description), sound is \(self.feedbackSound.rawValue)")
+        switch feedbackSound {
+        case .none:
+            break
+        case .drum:
+            AudioServicesPlaySystemSound(self.sndNeutral)
+        case .high:
+            AudioServicesPlaySystemSound(self.sndHigh)
+        case .low:
+            AudioServicesPlaySystemSound(self.sndLow)
+        case .heading, .compass:
+            if self.sndHeading != nil {
+                self.speechSynthesiser.speak(self.sndHeading!)
             }
-        }
-        if feedbackInterval > 0 {
-            if audioTimer != nil {
-                audioTimer?.invalidate()
-            }
-            audioTimer = Timer.scheduledTimer(timeInterval: feedbackInterval,
-                                              target: self,
-                                              selector: #selector(AudioFeedbackModel.playAudioFeedbackSound),
-                                              userInfo: nil,
-                                              repeats: false)
         }
     }
 }

@@ -129,12 +129,16 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         updateModel()
     }
     
+    private func urgency(correction: CLLocationDegrees, tolerance: CLLocationDegrees) -> Int {
+        return min(Int(abs(correctionAmount / toleranceDegrees)), 3)
+    }
+    
     func updateModel() {
         let observations = northType == .truenorth ? headingUpdatesTrue : headingUpdatesMagnetic
         headingSmoothed = observations.smoothed(Date())
         correctionAmount = correctionDegrees(observations.smoothed(Date()), target: headingTarget)
         correctionDirection = correctionAmount < 0 ? Turn.port : Turn.stbd
-        correctionUrgency = min(Int(abs(correctionAmount / toleranceDegrees)), 3) // correction urgency can be between 0 (within tolerance window) and 3 (off by 3 x tolerance window or more)
+        correctionUrgency = urgency(correction: correctionAmount, tolerance: toleranceDegrees) // correction urgency can be between 0 (within tolerance window) and 3 (off by 3 x tolerance window or more)
         audioFeedbackModel.updateHeading(heading: headingSmoothed)
         audioFeedbackModel.updateUrgencyAndDirection(urgency: correctionUrgency, direction: correctionDirection)
     }
