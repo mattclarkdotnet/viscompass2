@@ -13,7 +13,6 @@ struct SettingsView: View {
 
     var body: some View {
         VStack {
-            Text(" ").font(.title)
             HStack {
                 Image(systemName: "questionmark.circle")
                     .resizable()
@@ -30,10 +29,13 @@ struct SettingsView: View {
                 }
             }
             Divider()
-            Text("Global settings").font(.largeTitle)
+            Text("Global settings")
+                .font(.largeTitle)
+                .padding(EdgeInsets(top:10, leading:10, bottom:20, trailing:10))
             NorthTypePickerView()
             TackDegreesView()
             TargetAdjustView()
+            HeadingSecsView()
             Spacer()
         }
         .padding()
@@ -77,6 +79,28 @@ struct TackDegreesView: View {
             .onChange(of: storage.tackDegrees) {
                 tackDegrees in
                 steeringModel.setTackDegrees(newTackDegrees: Double(tackDegrees))
+            }
+        }
+    }
+}
+
+struct HeadingSecsView: View {
+    @EnvironmentObject var steeringModel: SteeringModel
+    @StateObject var storage = SettingsStorage()
+    let options = [5,10,15,20,30]
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Seconds between heading readouts")
+            Picker("Seconds", selection: $storage.headingSecs) {
+                ForEach(options, id: \.self) {
+                    Text("\($0)").tag($0)
+                }
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: storage.headingSecs) {
+                headingSecs in
+                steeringModel.audioFeedbackModel.updateHeadingSecs(secs: headingSecs)
             }
         }
     }

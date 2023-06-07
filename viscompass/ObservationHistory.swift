@@ -24,7 +24,7 @@ class ObservationHistory {
     var mostRecentObservation: Observation?
     
     //
-    // internal interface
+    // public interface
     //
     
     init(deltaFunc f: @escaping (Double, Double) -> Double, window_secs: Double) {

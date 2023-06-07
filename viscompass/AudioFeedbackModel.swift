@@ -25,8 +25,12 @@ enum AudioFeedbackSound: String {
     case low = "low"
     case drum = "drum"
     case heading = "heading"
-    case compass = "compass"
     case none = "none"
+}
+
+enum AudioFeedbackMode: String {
+    case compass = "compass"
+    case steering = "steering"
 }
 
 enum OnCourseFeedbackType: String {
@@ -38,10 +42,12 @@ enum OnCourseFeedbackType: String {
 
 class AudioFeedbackModel { // we don't make this observable, so as to avoid effing around with nested models for SwiftUI
     
+    private (set) var headingSecs = 10
     private (set) var audioFeedbackOn: Bool = false
-    private var onCourseFeedbackType: OnCourseFeedbackType = .drum // TODO: take from settings
+    private (set) var audioFeedbackMode: AudioFeedbackMode = .steering
+    private (set) var onCourseFeedbackType: OnCourseFeedbackType = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
     private var feedbackInterval: TimeInterval = 0
-    private var feedbackSound: AudioFeedbackSound = .drum // TODO: take from settings
+    private var feedbackSound: AudioFeedbackSound = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
     private var feedbackHeading: Int = 0
     private var feedbackUrgency: Int = 0
     private var feedbackDirection: Turn = .none
@@ -56,8 +62,19 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
     
     func updateHeading(heading: Double) {
         let headingStr = Int(heading).description // e.g. '130'
-        let headingDigits = headingStr.map({"\($0) "})
+        let headingDigits = headingStr.map({"\($0)"})
         sndHeading = AVSpeechUtterance(string: "heading \(headingDigits)")
+    }
+    
+    func updateHeadingSecs(secs: Int) {
+        headingSecs = secs
+        logger.debug("secs: \(secs)")
+        updateAudioFeedback()
+    }
+    
+    func setFeedbackMode(mode: AudioFeedbackMode) {
+        audioFeedbackMode = mode
+        updateAudioFeedback()
     }
     
     func updateUrgencyAndDirection(urgency: Int, direction: Turn) {
@@ -88,8 +105,9 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
         updateAudioFeedback()
     }
     
-    func createTimer() {
-        // logger.debug("Creating new timer")
+    // Private methods
+    
+    private func createTimer() {
         audioTimer?.invalidate()
         if feedbackInterval > 0 {
             audioTimer = Timer.scheduledTimer(timeInterval: feedbackInterval,
@@ -101,15 +119,18 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
     }
     
     private func nextSoundAndInterval() -> (AudioFeedbackSound, TimeInterval) {
-        if feedbackUrgency == 0 {
+        if audioFeedbackMode == .compass {
+            return (.heading, Double(headingSecs))
+        }
+        else if feedbackUrgency == 0 {
             // we are within tolerance
             switch onCourseFeedbackType {
             case .drum:
                 return (.drum, 5.0)
             case .heading:
-                return (.heading, 12.0)
+                return (.heading, Double(headingSecs))
             case .off:
-                return (.none, 1.0)
+                return (.none, 0.0)
             }
         }
         else {
@@ -140,14 +161,13 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
             return
         }
         
-        // audioTimer must not be nil, so invlidate and create a new one
+        // audioTimer must not be nil, so grab its fireDate and invalidate it
         let nowDate = Date()
         let fireDate = audioTimer.fireDate
         audioTimer.invalidate()
         
         if fireDate <= nowDate {
             logger.debug("fireDate is in past, playing immediately then creating timer")
-            audioTimer.invalidate()
             playAudioFeedbackSound()
             createTimer()
             return
@@ -167,7 +187,7 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
         }
         else {
             // The new feedback interval is longer than the time already consumed.  We want to reset the timer's firing date so that we experience no shortening,
-            // but we also don't wait the whole of the last interval.  Imagine we were in a 15 second interval, and only 1 second is consumed, and the new timer is 2 seconds
+            // but we also don't wait the whole of the last interval.  Imagine we were in a 15 second interval, and only 1 second is consumed, and the new interval is 2 seconds
             // in that scenario we want to wait an additional second then play the new sound
             let newDelay = self.feedbackInterval - consumedInterval
             logger.debug("feedbackInterval > consumedInterval, creating timer to wait \(newDelay) seconds, then play sound and schedule timer")
@@ -190,7 +210,7 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
             AudioServicesPlaySystemSound(self.sndHigh)
         case .low:
             AudioServicesPlaySystemSound(self.sndLow)
-        case .heading, .compass:
+        case .heading:
             if self.sndHeading != nil {
                 self.speechSynthesiser.speak(self.sndHeading!)
             }

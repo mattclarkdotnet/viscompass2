@@ -118,6 +118,11 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         updateModel()
     }
     
+    func setTarget(target: CLLocationDegrees) {
+        headingTarget = target.truncatingRemainder(dividingBy: 360.0)
+        updateModel()
+    }
+    
     func tack(turn: Turn) {
         let amount = turn == .stbd ? tackDegrees : -tackDegrees
         headingTarget = (headingTarget + amount).truncatingRemainder(dividingBy: 360.0)

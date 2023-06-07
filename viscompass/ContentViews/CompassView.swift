@@ -15,7 +15,6 @@ struct CompassView: View {
     var body: some View {
         VStack {
             VStack {
-                Text(" ").font(.title) // to keep layout consistent across tabs
                 HStack {
                     Image(systemName: "questionmark.circle")
                         .resizable()
@@ -36,14 +35,16 @@ struct CompassView: View {
             Spacer()
             VStack {
                 Text("Heading º").font(.title)
-                Text(Int(steeringModel.headingSmoothed).description).font(.system(size: 200))
+                Text(Int(steeringModel.headingSmoothed).description).font(.system(size: 150))
             }.padding(EdgeInsets(top:0, leading:0, bottom:150, trailing:0))
             Spacer()
             ResponsivenessPickerView()
-        }.padding()
+        }
+        .padding()
+        .onAppear(perform: { steeringModel.audioFeedbackModel.setFeedbackMode(mode: .compass) })
     }
-}
 
+}
 
 struct Previews_CompassView_Previews: PreviewProvider {
     static var previews: some View {
