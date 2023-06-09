@@ -1,5 +1,5 @@
 //
-//  TabView.swift
+//  MainView.swift
 //  viscompass
 //
 //  Created by Matt Clark on 6/5/2023.

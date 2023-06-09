@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C92F73DD2A314CE400267A4A /* HeadingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F73DC2A314CE400267A4A /* HeadingFilter.swift */; };
 		C96E42B82A15B0ED0065FABC /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96E42B72A15B0ED0065FABC /* SettingsModel.swift */; };
 		C995B2CC2A09C9B00037572A /* SteeringModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2CB2A09C9B00037572A /* SteeringModel.swift */; };
 		C995B2CE2A09CA160037572A /* AudioFeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2CD2A09CA160037572A /* AudioFeedbackModel.swift */; };
@@ -22,7 +23,6 @@
 		C9E48FDE2A06236900E1D702 /* viscompassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FDD2A06236900E1D702 /* viscompassUITests.swift */; };
 		C9E48FE02A06236900E1D702 /* viscompassUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FDF2A06236900E1D702 /* viscompassUITestsLaunchTests.swift */; };
 		C9E48FEF2A06245E00E1D702 /* AudioFeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */; };
-		C9E48FF12A06245E00E1D702 /* ObservationHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FEE2A06245E00E1D702 /* ObservationHistory.swift */; };
 		C9E48FFA2A06249200E1D702 /* side-drum-icon-27836.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */; };
 		C9E48FFB2A06249200E1D702 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF32A06249200E1D702 /* click_low.wav */; };
 		C9E48FFC2A06249200E1D702 /* Compass_512.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF42A06249200E1D702 /* Compass_512.png */; };
@@ -51,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C92F73DC2A314CE400267A4A /* HeadingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingFilter.swift; sourceTree = "<group>"; };
 		C96E42B72A15B0ED0065FABC /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C995B2CB2A09C9B00037572A /* SteeringModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeringModel.swift; sourceTree = "<group>"; };
 		C995B2CD2A09CA160037572A /* AudioFeedbackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFeedbackModel.swift; sourceTree = "<group>"; };
@@ -69,7 +70,6 @@
 		C9E48FDD2A06236900E1D702 /* viscompassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITests.swift; sourceTree = "<group>"; };
 		C9E48FDF2A06236900E1D702 /* viscompassUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFeedbackController.swift; sourceTree = "<group>"; };
-		C9E48FEE2A06245E00E1D702 /* ObservationHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationHistory.swift; sourceTree = "<group>"; };
 		C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "side-drum-icon-27836.png"; sourceTree = "<group>"; };
 		C9E48FF32A06249200E1D702 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
 		C9E48FF42A06249200E1D702 /* Compass_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_512.png; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 				C995B2CF2A0B21160037572A /* ContentViews */,
 				C9E48FC22A06236800E1D702 /* viscompassApp.swift */,
 				C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */,
-				C9E48FEE2A06245E00E1D702 /* ObservationHistory.swift */,
+				C92F73DC2A314CE400267A4A /* HeadingFilter.swift */,
 				C9E48FC62A06236900E1D702 /* Assets.xcassets */,
 				C9E48FC82A06236900E1D702 /* Preview Content */,
 				C995B2CB2A09C9B00037572A /* SteeringModel.swift */,
@@ -326,8 +326,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C995B2D12A0B21420037572A /* CompassView.swift in Sources */,
+				C92F73DD2A314CE400267A4A /* HeadingFilter.swift in Sources */,
 				C995B2D32A0B21600037572A /* SteeringView.swift in Sources */,
-				C9E48FF12A06245E00E1D702 /* ObservationHistory.swift in Sources */,
 				C995B2D52A0B218D0037572A /* SettingsView.swift in Sources */,
 				C9E48FC52A06236800E1D702 /* MainView.swift in Sources */,
 				C9E48FEF2A06245E00E1D702 /* AudioFeedbackController.swift in Sources */,

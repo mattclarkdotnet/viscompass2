@@ -30,6 +30,10 @@ struct SteeringView: View {
         }
         return Color(UIColor.systemBackground)
     }
+    
+    func longpress() -> Bool {
+        return self.isDetectingLongPressPlus || self.isDetectingLongPressMinus || self.isDetectingLongPressTarget
+    }
 
     var longPressTargetPlus: some Gesture {
         LongPressGesture(minimumDuration: 2)
@@ -95,28 +99,41 @@ struct SteeringView: View {
             Divider()
             VStack {
                 Text("Target").font(.title)
-                HStack {
-                    Button(action: steeringModel.decreaseTarget) {
-                        Image(systemName: "minus.square")
-                            .resizable()
-                            .frame(width:50, height:50)
-                            .gesture(longPressTargetMinus)
-                    }
-                    Spacer()
-                    VStack {
-                        Text(Int(steeringModel.headingTarget).description + "º")
-                            .font(.system(size: 50))
-                            .gesture(longPressTarget)
-                    }.background(self.longpress_colour())
-                    Spacer()
-                    Button(action: steeringModel.increaseTarget) {
-                        Image(systemName: "plus.square")
-                            .resizable()
-                            .frame(width:50, height:50)
-                            .gesture(longPressTargetPlus)
+                ZStack {
+                    Rectangle()
+                        .fill(.clear)
+                        .padding(.all, 0)
+                        .background(Circle()
+                            .fill(.radialGradient(colors: [self.longpress_colour(), Color(UIColor.systemBackground)], center: .center, startRadius: 30, endRadius: 100))
+                            .foregroundColor(self.longpress_colour())
+                            .frame(width: self.longpress() ? 200 : 0, height: self.longpress() ? 200 : 0)
+                            )
+                        .ignoresSafeArea()
+                        
+                    HStack {
+                        Button(action: steeringModel.decreaseTarget) {
+                            Image(systemName: "minus.square")
+                                .resizable()
+                                .frame(width:50, height:50)
+                                .gesture(longPressTargetMinus)
+                        }
+                        Spacer()
+                        VStack {
+                            Text(Int(steeringModel.headingTarget).description + "º")
+                                .font(.system(size: 50))
+                                .gesture(longPressTarget)
+                            
+                        }
+                        Spacer()
+                        Button(action: steeringModel.increaseTarget) {
+                            Image(systemName: "plus.square")
+                                .resizable()
+                                .frame(width:50, height:50)
+                                .gesture(longPressTargetPlus)
+                        }
                     }
                 }
-            }.background(self.longpress_colour())
+            }
             Divider()
             VStack {
                 Text("Steer").font(.title)
@@ -152,3 +169,9 @@ struct SteeringView: View {
 }
 
 
+struct Previews_SteeringView_Previews: PreviewProvider {
+    static var previews: some View {
+        SteeringView()
+            .environmentObject(SteeringModel())
+    }
+}
