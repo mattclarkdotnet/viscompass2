@@ -22,16 +22,24 @@ struct MainView: View {
                 .tabItem {
                     Label("Steer", systemImage: "helm")
                 }
+                .padding([.bottom], 30)
                 .tag(Tab.navigation)
             CompassView()
                 .tabItem {
                     Label("Compass", systemImage: "arrow.up.circle")
                 }
+                .padding([.bottom], 30)
                 .tag(Tab.compass)
             SettingsView()
+                .padding([.bottom], 30)
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
+        }
+        .padding(EdgeInsets(top: 5, leading: 15, bottom: 0, trailing: 15))
+        .onAppear() {
+            UIApplication.shared.isIdleTimerDisabled = true // When VISCompass is running in the foreground, the phone will not dim the display or go to the lock screen
+            
         }
     }
 }

@@ -12,8 +12,8 @@ let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(d
 
 @main
 struct viscompassApp: App {
-    @StateObject var steeringModel = SteeringModel()
     
+    @StateObject var steeringModel = SteeringModel()
     var body: some Scene {
         WindowGroup {
             MainView()

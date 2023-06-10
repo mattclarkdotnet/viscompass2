@@ -16,6 +16,8 @@
 		C995B2D52A0B218D0037572A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D42A0B218D0037572A /* SettingsView.swift */; };
 		C9CE15FC2A21F93C00389886 /* Compass_120.png in Resources */ = {isa = PBXBuildFile; fileRef = C9CE15FB2A21F93C00389886 /* Compass_120.png */; };
 		C9DAC9982A34149200037F65 /* Compass_400.png in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC9972A34149200037F65 /* Compass_400.png */; };
+		C9DAC99A2A34198A00037F65 /* viscompass2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC9992A34198A00037F65 /* viscompass2-Info.plist */; };
+		C9DAC99C2A342E3800037F65 /* TargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC99B2A342E3800037F65 /* TargetView.swift */; };
 		C9E48FC32A06236800E1D702 /* viscompassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FC22A06236800E1D702 /* viscompassApp.swift */; };
 		C9E48FC52A06236800E1D702 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FC42A06236800E1D702 /* MainView.swift */; };
 		C9E48FC72A06236900E1D702 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FC62A06236900E1D702 /* Assets.xcassets */; };
@@ -61,6 +63,8 @@
 		C995B2D42A0B218D0037572A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C9CE15FB2A21F93C00389886 /* Compass_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_120.png; sourceTree = "<group>"; };
 		C9DAC9972A34149200037F65 /* Compass_400.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_400.png; sourceTree = "<group>"; };
+		C9DAC9992A34198A00037F65 /* viscompass2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "viscompass2-Info.plist"; sourceTree = "<group>"; };
+		C9DAC99B2A342E3800037F65 /* TargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetView.swift; sourceTree = "<group>"; };
 		C9E48FBF2A06236800E1D702 /* viscompass2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = viscompass2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FC22A06236800E1D702 /* viscompassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassApp.swift; sourceTree = "<group>"; };
 		C9E48FC42A06236800E1D702 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 				C995B2D02A0B21420037572A /* CompassView.swift */,
 				C995B2D22A0B21600037572A /* SteeringView.swift */,
 				C995B2D42A0B218D0037572A /* SettingsView.swift */,
+				C9DAC99B2A342E3800037F65 /* TargetView.swift */,
 			);
 			path = ContentViews;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 				C9E48FF92A06249200E1D702 /* click_high.wav */,
 				C9E48FF32A06249200E1D702 /* click_low.wav */,
 				C9CE15FB2A21F93C00389886 /* Compass_120.png */,
+				C9DAC9992A34198A00037F65 /* viscompass2-Info.plist */,
 				C9DAC9972A34149200037F65 /* Compass_400.png */,
 				C9E48FF42A06249200E1D702 /* Compass_512.png */,
 				C9E48FF82A06249200E1D702 /* Compass_1024_noalpha.png */,
@@ -296,6 +302,7 @@
 				C9E48FFE2A06249200E1D702 /* Compass_1024.png in Resources */,
 				C9CE15FC2A21F93C00389886 /* Compass_120.png in Resources */,
 				C9E490002A06249200E1D702 /* Compass_1024_noalpha.png in Resources */,
+				C9DAC99A2A34198A00037F65 /* viscompass2-Info.plist in Resources */,
 				C9E48FFB2A06249200E1D702 /* click_low.wav in Resources */,
 				C9E490012A06249200E1D702 /* click_high.wav in Resources */,
 				C9E48FFD2A06249200E1D702 /* drum200.wav in Resources */,
@@ -336,6 +343,7 @@
 				C9E48FC52A06236800E1D702 /* MainView.swift in Sources */,
 				C9E48FEF2A06245E00E1D702 /* AudioFeedbackController.swift in Sources */,
 				C96E42B82A15B0ED0065FABC /* SettingsModel.swift in Sources */,
+				C9DAC99C2A342E3800037F65 /* TargetView.swift in Sources */,
 				C995B2CC2A09C9B00037572A /* SteeringModel.swift in Sources */,
 				C9E48FC32A06236800E1D702 /* viscompassApp.swift in Sources */,
 				C995B2CE2A09CA160037572A /* AudioFeedbackModel.swift in Sources */,

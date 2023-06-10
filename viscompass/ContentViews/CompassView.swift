@@ -14,21 +14,19 @@ struct CompassView: View {
     
     var body: some View {
         VStack {
-            VStack {
-                HStack {
-                    Image(systemName: "questionmark.circle")
+            HStack {
+                Image(systemName: "questionmark.circle")
+                    .resizable()
+                    .frame(width:50, height:50)
+                Spacer()
+                Text(" ").font(.system(size: 50)) // for layout consistency across views
+                Spacer()
+                Button(action: {
+                    steeringModel.toggleAudioFeedback()
+                }) {
+                    Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
                         .resizable()
                         .frame(width:50, height:50)
-                    Spacer()
-                    Text(" ").font(.system(size: 50)) // for layout consistency across views
-                    Spacer()
-                    Button(action: {
-                        steeringModel.toggleAudioFeedback()
-                    }) {
-                        Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
-                            .resizable()
-                            .frame(width:50, height:50)
-                    }
                 }
             }
             Divider()
@@ -40,7 +38,6 @@ struct CompassView: View {
             Spacer()
             ResponsivenessPickerView()
         }
-        .padding()
         .onAppear(perform: { steeringModel.audioFeedbackModel.setFeedbackMode(mode: .compass) })
     }
 

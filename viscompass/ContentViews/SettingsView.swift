@@ -18,7 +18,7 @@ struct SettingsView: View {
                     .resizable()
                     .frame(width:50, height:50)
                 Spacer()
-                Text(" ").font(.system(size: 50)) // for layout consistency across views
+                Text(Int(steeringModel.headingSmoothed).description + "º").font(.system(size: 50))
                 Spacer()
                 Button(action: {
                     steeringModel.toggleAudioFeedback()
@@ -28,17 +28,13 @@ struct SettingsView: View {
                         .frame(width:50, height:50)
                 }
             }
-            Divider()
-            Text("Global settings")
-                .font(.largeTitle)
-                .padding(EdgeInsets(top:10, leading:10, bottom:20, trailing:10))
-            NorthTypePickerView()
-            TackDegreesView()
-            TargetAdjustView()
-            HeadingSecsView()
             Spacer()
+            FeedbackPickerView().padding([.top], 20)
+            TackDegreesView().padding([.top], 20)
+            NorthTypePickerView().padding([.top], 20)
+            TargetAdjustView().padding([.top], 20)
+            HeadingSecsView().padding([.top], 20)
         }
-        .padding()
     }
 }
 

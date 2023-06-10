@@ -33,7 +33,6 @@ class HeadingFilter {
             //if we have 100 or more readings, discard those older than a minute
             let oneMinuteAgo = Date(timeIntervalSinceNow: -60)
             intermittent_readings.removeAll(where: { $0.date < oneMinuteAgo })
-//            logger.debug("Count of intermittent readings is \(self.intermittent_readings.count)")
         }
     }
     
@@ -57,11 +56,9 @@ class HeadingFilter {
     
     func filtered(gamma: Double) -> Double {
         if intermittent_readings.count == 0 {
-            logger.debug("No readings available to filter, returning 123.0")
             return 123.0 // Magic number for UI debugging
         }
         else if intermittent_readings.count == 1 {
-            logger.debug("Only one reading available, returning \(self.intermittent_readings.first!.value)")
             return self.intermittent_readings.first!.value
         }
         // At this point we have at least two readings
