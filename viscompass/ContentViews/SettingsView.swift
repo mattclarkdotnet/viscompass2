@@ -8,26 +8,25 @@
 import Foundation
 import SwiftUI
 
-struct SettingsView: View {
-    @EnvironmentObject var steeringModel: SteeringModel
+let settingsHelpText =
+"""
+The settings view aloows you to configure basic behaviours of the app.
 
+The "On course feedback" picker lets you choose between a steady drumbeat, a heading readout, and no feedback when the boat is on course.
+
+The "Tack through" picker sets the amount the target is changed by when long pressing on the target adjustment buttons on the steering view.
+
+The "North type" picker lets you chose between true and magnetic north.  True north is only available if the app has permission to access the location of the phone so it can look up the local variation.
+
+The "Target buttons adjust by" picker changes how much the plus and minus buttons on the sterring view change the target heading by.
+
+The "Seconds between heading readouts" picker adjusts the gap between heading readouts in both the compass view and the steering view.
+"""
+
+struct SettingsView: View {
     var body: some View {
         VStack {
-            HStack {
-                Image(systemName: "questionmark.circle")
-                    .resizable()
-                    .frame(width:50, height:50)
-                Spacer()
-                Text(Int(steeringModel.headingSmoothed).description + "º").font(.system(size: 50))
-                Spacer()
-                Button(action: {
-                    steeringModel.toggleAudioFeedback()
-                }) {
-                    Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
-                        .resizable()
-                        .frame(width:50, height:50)
-                }
-            }
+            HeaderView(helpTitle: "Settings Help", helpText: settingsHelpText, showHeading: true)
             Spacer()
             FeedbackPickerView().padding([.top], 20)
             TackDegreesView().padding([.top], 20)

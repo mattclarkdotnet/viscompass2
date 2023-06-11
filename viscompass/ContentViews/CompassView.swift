@@ -8,28 +8,22 @@
 import Foundation
 import SwiftUI
 
+let compassHelpText =
+"""
+The compass view displays the current heading in a large font, and sets the audio feedback to read out the heading.
+
+Use the responsiveness picker at the bottom of the screen to set how rapidly the heading responds to changes.
+
+Use the settings view to change the frequency of the heading readout
+"""
+
 
 struct CompassView: View {
     @EnvironmentObject var steeringModel: SteeringModel
     
     var body: some View {
         VStack {
-            HStack {
-                Image(systemName: "questionmark.circle")
-                    .resizable()
-                    .frame(width:50, height:50)
-                Spacer()
-                Text(" ").font(.system(size: 50)) // for layout consistency across views
-                Spacer()
-                Button(action: {
-                    steeringModel.toggleAudioFeedback()
-                }) {
-                    Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
-                        .resizable()
-                        .frame(width:50, height:50)
-                }
-            }
-            Divider()
+            HeaderView(helpTitle: "Compass Help", helpText: compassHelpText, showHeading: false)
             Spacer()
             VStack {
                 Text("Heading º").font(.title)

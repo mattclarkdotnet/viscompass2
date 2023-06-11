@@ -109,6 +109,7 @@ struct TargetView: View {
                     }
                 }
             }
+            Divider()
         }
     }
 }
