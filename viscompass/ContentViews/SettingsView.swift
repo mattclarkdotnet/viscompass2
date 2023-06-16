@@ -33,6 +33,7 @@ struct SettingsView: View {
             NorthTypePickerView().padding([.top], 20)
             TargetAdjustView().padding([.top], 20)
             HeadingSecsView().padding([.top], 20)
+            Spacer()
         }
     }
 }

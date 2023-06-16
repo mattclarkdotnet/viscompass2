@@ -86,8 +86,8 @@ struct TargetView: View {
                         Image(systemName: "minus.square")
                             .resizable()
                             .frame(width:50, height:50)
-                            .gesture(longPressTargetMinus)
-                    }
+                            
+                    }.simultaneousGesture(longPressTargetMinus)
                     Spacer()
                     VStack {
                         Text(Int(steeringModel.headingTarget).description + "º")
@@ -105,8 +105,8 @@ struct TargetView: View {
                         Image(systemName: "plus.square")
                             .resizable()
                             .frame(width:50, height:50)
-                            .gesture(longPressTargetPlus)
-                    }
+                            
+                    }.simultaneousGesture(longPressTargetPlus)
                 }
             }
             Divider()

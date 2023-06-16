@@ -21,7 +21,8 @@ func differenceDegrees(a: Double, b: Double) -> Double {
 
 let e = 2.718281
 let resolution: Double = 0.1
-let gammas: [Double] = [200,100,50,25,10].map {pow(e, log(resolution)/$0)}
+let max_samples = 200 // 20 Seconds with 0.1 resolution
+let gammas: [Double] = [max_samples, max_samples / 2 ,max_samples / 4, max_samples / 8, max_samples / 16].map {pow(e, log(resolution)/Double($0))}
 
 class HeadingFilter {
     private var intermittent_readings: [Reading] = [] // from newest to oldest
@@ -30,7 +31,7 @@ class HeadingFilter {
         let now = Date()
         intermittent_readings.insert(Reading(value: value, date: now), at: 0)
         if intermittent_readings.count > 100 {
-            //if we have 100 or more readings, discard those older than a minute
+            // if we have 100 or more readings, discard those older than a minute
             let oneMinuteAgo = Date(timeIntervalSinceNow: -60)
             intermittent_readings.removeAll(where: { $0.date < oneMinuteAgo })
         }
@@ -38,10 +39,10 @@ class HeadingFilter {
     
     private func regularised_to_now() -> [Double] {
         var regularised_values: [Double] = []
-        let readings: [Reading] = [Reading(value: intermittent_readings.first!.value, date: Date())] + intermittent_readings
+        let readings = [Reading(value: intermittent_readings.first!.value, date: Date())] + intermittent_readings
         for i  in (0 ..< readings.count - 1 ) {
             regularised_values.append(contentsOf: samples_between(mostRecent: readings[i], nextMostRecent: readings[i+1]))
-            if regularised_values.count > Int(20/resolution) { // 20 seconds
+            if regularised_values.count > max_samples {
                 break
             }
         }
