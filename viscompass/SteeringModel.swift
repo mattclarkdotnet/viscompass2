@@ -58,8 +58,6 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         audioFeedbackModel = AudioFeedbackModel()
         
-        logger.debug("Gammas: \(gammas)")
-        
         // Configure based on last used settings
         let store = SettingsStorage()
         responsivenessIndex = store.responsivenessIndex
@@ -146,7 +144,7 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @objc func updateModel() {
         let observations = northType == .truenorth ? headingUpdatesTrue : headingUpdatesMagnetic
-        headingSmoothed = observations.filtered(gamma: gammas[responsivenessIndex])
+        headingSmoothed = observations.filtered(sensitivityIndex: responsivenessIndex)
         correctionAmount = correctionDegrees(headingSmoothed, target: headingTarget)
         correctionDirection = correctionAmount < 0 ? Turn.port : Turn.stbd
         correctionUrgency = urgency(correction: correctionAmount, tolerance: toleranceDegrees) // correction urgency can be between 0 (within tolerance window) and 3 (off by 3 x tolerance window or more)

@@ -19,13 +19,33 @@ func differenceDegrees(a: Double, b: Double) -> Double {
 }
 
 
-let e = 2.718281
-let resolution: Double = 0.1
-let max_samples = 200 // 20 Seconds with 0.1 resolution
-let gammas: [Double] = [max_samples, max_samples / 2 ,max_samples / 4, max_samples / 8, max_samples / 16].map {pow(e, log(resolution)/Double($0))}
+struct SensitivitySetting {
+    let cutoffSeconds: Double
+    let cutoffSamples: Int
+    let gamma: Double
+}
 
+let e = 2.718281
+let factor_after_max_time: Double = 0.05
+let time_resolution = 0.1
+let max_time = 20.0
+let max_samples = Int(max_time/time_resolution)
+
+
+                  
 class HeadingFilter {
     private var intermittent_readings: [Reading] = [] // from newest to oldest
+    private var sensitivities: [SensitivitySetting] = []
+    
+    init () {
+        for t in [max_time, max_time/2, max_time/4, max_time/8, max_time/16] {
+            sensitivities.append(SensitivitySetting(cutoffSeconds: t,
+                                                    cutoffSamples: Int(t / time_resolution),
+                                                    gamma: pow(e, log(factor_after_max_time)/(t/time_resolution))))
+        }
+        logger.debug("Sensitivities: \(self.sensitivities)")
+        
+    }
     
     func add_reading(value: Double) {
         let now = Date()
@@ -51,11 +71,12 @@ class HeadingFilter {
     
     private func samples_between(mostRecent: Reading, nextMostRecent: Reading) -> [Double] {
         let secondsSinceLastReading = DateInterval(start: nextMostRecent.date, end: mostRecent.date).duration
-        let samplesToAdd = Int(secondsSinceLastReading / resolution)
+        let samplesToAdd = Int(secondsSinceLastReading / time_resolution)
         return [mostRecent.value] + Array(repeating: nextMostRecent.value, count: samplesToAdd )
     }
     
-    func filtered(gamma: Double) -> Double {
+    func filtered(sensitivityIndex: Int) -> Double {
+        let sensitivity = sensitivities[sensitivityIndex]
         if intermittent_readings.count == 0 {
             return 123.0 // Magic number for UI debugging
         }
@@ -64,15 +85,14 @@ class HeadingFilter {
         }
         // At this point we have at least two readings
         let vals = regularised_to_now()  // translate a set of intermittent readings to a regular set of readings with a certain time resolution
-        let mostRecentVal = vals[0]
-        let count = Double(vals.count)
+        let count = min(vals.count, sensitivity.cutoffSamples)
         var sum: Double = 0
-        for (i, v) in vals.enumerated() {
-            let delta = differenceDegrees(a: mostRecentVal, b: v)
-            let p = pow(gamma, Double(i))
+        for i in 1..<count {
+            let delta = differenceDegrees(a: vals[0], b: vals[i])
+            let p = pow(sensitivity.gamma, Double(i))
             sum += delta * p // so when i is 0 and gamma is 0.5, exp(gamma, i) is 1, and when i is 4 and gamma is 0.5 exp(gamma, i) is 0.5^4 = 0.0625
         }
-        let result = mostRecentVal + sum/count
+        let result = vals[0] + (sum / Double(count))
         return result > 0 ? result : 360 + result
     }
 }
