@@ -17,4 +17,5 @@ class SettingsStorage: ObservableObject {
     @AppStorage("tackDegrees") public var tackDegrees = 100
     @AppStorage("targetAdjustDegrees") public var targetAdjustDegrees = 10
     @AppStorage("northType") public var northType: NorthType = .magneticnorth
+    @AppStorage("resetTargetWithAudio") public var resetTargetWithAudio: Bool = false
 }

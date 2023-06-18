@@ -49,6 +49,8 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let headingUpdatesTrue = HeadingFilter()
     private let headingUpdatesMagnetic = HeadingFilter()
     
+    private let store = SettingsStorage()
+    
     private var headingUpdateTimer: Timer?
     
     let audioFeedbackModel: AudioFeedbackModel
@@ -59,7 +61,6 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         audioFeedbackModel = AudioFeedbackModel()
         
         // Configure based on last used settings
-        let store = SettingsStorage()
         responsivenessIndex = store.responsivenessIndex
         toleranceDegrees = max(CLLocationDegrees(store.toleranceDegrees), 5)
         northType = store.northType
@@ -107,9 +108,11 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func toggleAudioFeedback() {
+        if !audioFeedbackModel.audioFeedbackOn && store.resetTargetWithAudio {
+            setTarget(target: headingSmoothed)
+        }
         audioFeedbackModel.toggleFeedback()
         audioFeedbackOn = audioFeedbackModel.audioFeedbackOn
-        // No need to update the model here, as the audio model keeps running but just doesn't play any sounds
     }
     
     func increaseTarget() {

@@ -33,6 +33,7 @@ struct SettingsView: View {
             NorthTypePickerView().padding([.top], 20)
             TargetAdjustView().padding([.top], 20)
             HeadingSecsView().padding([.top], 20)
+            ResetTargetWithAudioView().padding([.top], 20)
             Spacer()
         }
     }
@@ -188,6 +189,16 @@ struct ResponsivenessPickerView: View {
                 newResponsiveness in
                 steeringModel.setResponsiveness(newResponsiveness)
             }
+        }
+    }
+}
+
+struct ResetTargetWithAudioView: View {
+    @StateObject var storage = SettingsStorage()
+    
+    var body: some View {
+        VStack(alignment:.leading) {
+            Toggle("Reset target when enabling audio", isOn: storage.$resetTargetWithAudio)
         }
     }
 }
