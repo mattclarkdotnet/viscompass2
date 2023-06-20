@@ -87,7 +87,10 @@ struct TargetView: View {
                             .resizable()
                             .frame(width:50, height:50)
                             
-                    }.simultaneousGesture(longPressTargetMinus)
+                    }
+                    .simultaneousGesture(longPressTargetMinus)
+                    .accessibilityInputLabels(["Port", "Adjust to port"])
+                    
                     Spacer()
                     VStack {
                         Text(Int(steeringModel.headingTarget).description + "º")
@@ -101,12 +104,15 @@ struct TargetView: View {
                         
                     }
                     Spacer()
+                    
                     Button(action: steeringModel.increaseTarget) {
                         Image(systemName: "plus.square")
                             .resizable()
                             .frame(width:50, height:50)
                             
-                    }.simultaneousGesture(longPressTargetPlus)
+                    }
+                    .simultaneousGesture(longPressTargetPlus)
+                    .accessibilityInputLabels(["Starboard", "Adjust to starboard"])
                 }
             }
             Divider()

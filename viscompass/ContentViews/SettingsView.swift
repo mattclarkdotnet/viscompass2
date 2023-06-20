@@ -138,6 +138,7 @@ struct FeedbackPickerView: View {
                 Text("Heading").tag(OnCourseFeedbackType.heading)
                 Text("None").tag(OnCourseFeedbackType.off)
             }
+            .accessibilityInputLabels(["On course feedback"])
             .pickerStyle(.segmented)
             .onChange(of: storage.feedbackType) {
                 feedbackType in
@@ -199,6 +200,7 @@ struct ResetTargetWithAudioView: View {
     var body: some View {
         VStack(alignment:.leading) {
             Toggle("Reset target when enabling audio", isOn: storage.$resetTargetWithAudio)
+                .accessibilityInputLabels(["Reset target", "Reset target when enabling audio"])
         }
     }
 }

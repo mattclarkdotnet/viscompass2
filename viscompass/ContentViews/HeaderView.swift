@@ -24,6 +24,7 @@ struct HeaderView: View {
                         .resizable()
                         .frame(width:50, height:50)
                 }
+                .accessibilityInputLabels(["Help"])
                 .sheet(isPresented: $showingHelp) {
                     VStack {
                         ScrollView {
@@ -32,7 +33,7 @@ struct HeaderView: View {
                                     Image(systemName: "x.circle")
                                         .resizable()
                                         .frame(width:25, height:25)
-                                }
+                                }.accessibilityInputLabels(["Close", "Close help"])
                                 Spacer()
                             }
                             Text(helpTitle).font(.system(.title)).padding([.bottom], 20)
@@ -47,11 +48,12 @@ struct HeaderView: View {
                 Spacer()
                 Button(action: {
                     steeringModel.toggleAudioFeedback()
-                }) {
+                })
+                {
                     Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
                         .resizable()
                         .frame(width:50, height:50)
-                }
+                }.accessibilityInputLabels(["Audio", "Audio on off", "Pause", "Start", "Stop", "Pause Audio", "Start Audio", "Stop audio", "Feedback"])
             }
             Divider()
         }

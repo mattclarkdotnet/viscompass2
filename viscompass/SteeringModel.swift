@@ -45,7 +45,6 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var targetAdjustDegrees: CLLocationDegrees
     
     private let locationManager: CLLocationManager
-    private let responsivenessWindows: [Double] = [10.0, 6.0, 3.0, 1.5, 0.75]
     private let headingUpdatesTrue = HeadingFilter()
     private let headingUpdatesMagnetic = HeadingFilter()
     
