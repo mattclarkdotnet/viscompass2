@@ -16,8 +16,8 @@ Many inputs respond to multiple command variations, the full list is below.
 
 ## Steering screen
 
-* Adjust target to port button: "Port", "Adjust to port".  Say "long press _button name_" to tack
-* Adjust target to starboard button: "Starboard", "Adjust to starboard"
+* Adjust target to port button: "Port", "Adjust to port".  "long press" is supported for this command, and will tack the target
+* Adjust target to starboard button: "Starboard", "Adjust to starboard".  "long press" is supported for this command, and will tack the target
 * Tolerance picker: "5 degrees", etc
 * Responsiveness picker: "SS", etc
 

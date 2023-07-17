@@ -127,7 +127,7 @@
 			path = ContentViews;
 			sourceTree = "<group>";
 		};
-		C9E48FB62A06236800E1D702 = {
+		C996C73C2A45073400C00B1A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				C9E48FF92A06249200E1D702 /* click_high.wav */,
@@ -141,6 +141,13 @@
 				C9E48FF72A06249200E1D702 /* Default-568h@2x.png */,
 				C9E48FF52A06249200E1D702 /* drum200.wav */,
 				C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C9E48FB62A06236800E1D702 = {
+			isa = PBXGroup;
+			children = (
 				C996C7022A41270600C00B1A /* COMMANDS.md */,
 				C9E48FC12A06236800E1D702 /* viscompass */,
 				C9E48FD22A06236900E1D702 /* viscompassTests */,
@@ -162,6 +169,7 @@
 		C9E48FC12A06236800E1D702 /* viscompass */ = {
 			isa = PBXGroup;
 			children = (
+				C996C73C2A45073400C00B1A /* Resources */,
 				C995B2CF2A0B21160037572A /* ContentViews */,
 				C9E48FC22A06236800E1D702 /* viscompassApp.swift */,
 				C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */,

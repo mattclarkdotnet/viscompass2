@@ -27,7 +27,7 @@ struct CompassView: View {
             Spacer()
             VStack {
                 Text("Heading º").font(.title)
-                Text(Int(steeringModel.headingSmoothed).description).font(.system(size: 150))
+                Text(Int(steeringModel.headingSmoothed).description).font(.system(size: 150)).monospacedDigit()
             }.padding(EdgeInsets(top:0, leading:0, bottom:150, trailing:0))
             Spacer()
             ResponsivenessPickerView()

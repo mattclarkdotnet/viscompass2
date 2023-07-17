@@ -44,7 +44,9 @@ struct HeaderView: View {
                     }.padding()
                 }
                 Spacer()
-                Text(showHeading ? "\(Int(steeringModel.headingSmoothed).description)º" : " ").font(.system(size: 50))
+                Text(showHeading ? "\(Int(steeringModel.headingSmoothed).description)º" : " ")
+                    .font(.system(size: 50))
+                    .monospacedDigit()
                 Spacer()
                 Button(action: {
                     steeringModel.toggleAudioFeedback()

@@ -43,6 +43,7 @@ struct SteeringView: View {
                     VStack {
                         Text(Int(steeringModel.correctionAmount).description + "º")
                             .font(.system(size: 50))
+                            .monospacedDigit()
                     }.frame(minWidth: 130)
                     Image(systemName: "arrowtriangle.right.fill")
                         .resizable()
