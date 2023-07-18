@@ -25,6 +25,21 @@ func correctionDegrees(_ current: CLLocationDegrees, target: CLLocationDegrees) 
     return result < 180 ? result : result - 360
 }
 
+func normaliseDegrees(degrees: CLLocationDegrees) -> CLLocationDegrees {
+    // takes a Double (or CLLocationDegrees) and converts it to a value between 0 and 360
+    var normalised: CLLocationDegrees = degrees
+    if degrees >= 360 || degrees <= -360 {
+        let base = Int(degrees) / 360
+        normalised = degrees - Double(base * 360)
+    }
+    if normalised < 0 {
+        return 360 + normalised
+    }
+    else {
+        return normalised
+    }
+}
+
 
 class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published private (set) var headingSmoothed: CLLocationDegrees = 0
@@ -115,28 +130,28 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func increaseTarget() {
-        headingTarget = (headingTarget + targetAdjustDegrees).truncatingRemainder(dividingBy: 360.0)
+        headingTarget = normaliseDegrees(degrees: headingTarget + targetAdjustDegrees)
         updateModel()
     }
     
     func decreaseTarget() {
-        headingTarget = (headingTarget - targetAdjustDegrees).truncatingRemainder(dividingBy: 360.0)
+        headingTarget = normaliseDegrees(degrees: headingTarget - targetAdjustDegrees)
         updateModel()
     }
     
     func setTarget(target: CLLocationDegrees) {
-        headingTarget = target.truncatingRemainder(dividingBy: 360.0)
+        headingTarget = normaliseDegrees(degrees: target)
         updateModel()
     }
     
     func tack(turn: Turn) {
         let amount = turn == .stbd ? tackDegrees : -tackDegrees
-        headingTarget = (headingTarget + amount).truncatingRemainder(dividingBy: 360.0)
+        headingTarget = normaliseDegrees(degrees: headingTarget + amount)
         updateModel()
     }
     
     func setTolerance(newTolerance: CLLocationDegrees) {
-        toleranceDegrees = min(newTolerance.truncatingRemainder(dividingBy: 360.0), 5)
+        toleranceDegrees = min(newTolerance, 5)
         updateModel()
     }
     
