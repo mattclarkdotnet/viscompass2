@@ -10,15 +10,8 @@
 //
 
 import Foundation
-import AudioToolbox
 import AVFoundation
 
-func createSound(_ fileName: String, fileExt: String) -> SystemSoundID {
-    var soundID: SystemSoundID = 0
-    let soundURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fileName as CFString, fileExt as CFString, nil)
-    AudioServicesCreateSystemSoundID(soundURL!, &soundID)
-    return soundID
-}
 
 enum AudioFeedbackSound: String {
     case high = "high"
@@ -40,6 +33,7 @@ enum OnCourseFeedbackType: String {
 }
 
 
+
 class AudioFeedbackModel { // we don't make this observable, so as to avoid effing around with nested models for SwiftUI
     
     private (set) var headingSecs = 10
@@ -52,18 +46,46 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
     private var feedbackUrgency: Int = 0
     private var feedbackDirection: Turn = .none
     
+    private var lastHeading: Int = -1
     private var audioTimer: Timer?
     
     private let speechSynthesiser: AVSpeechSynthesizer = AVSpeechSynthesizer()
-    private let sndHigh: SystemSoundID = createSound("click_high", fileExt: "wav")
-    private let sndLow: SystemSoundID = createSound("click_low", fileExt: "wav")
-    private let sndNeutral: SystemSoundID = createSound("drum200", fileExt: "wav")
-    private var sndHeading: AVSpeechUtterance?
+    
+    private var sndHigh: AVAudioPlayer?
+    private var sndLow: AVAudioPlayer?
+    private var sndNeutral: AVAudioPlayer?
+    private var sndHeading: AVAudioPlayer?
+    
+    private var bufHeading: SpeechBuffer = SpeechBuffer()
+
+    func configureAudioSession() {
+        // Retrieve the shared audio session.
+        logger.info("Configuring audio session")
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            // Set the audio session category and mode.
+            try audioSession.setCategory(.playback, mode: .default)
+            logger.debug("Set audio session to category .playback, mode .default")
+            sndHigh = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "click_high.wav", ofType: nil)!))
+            sndLow = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "click_low.wav", ofType: nil)!))
+            sndNeutral = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "drum200.wav", ofType: nil)!))
+            logger.debug("Loaded static sound files")
+            
+        } catch {
+            logger.debug("Failed to set the audio session configuration")
+        }
+    }
     
     func updateHeading(heading: Double) {
-        let headingStr = Int(heading).description // e.g. '130'
+        if Int(heading) == lastHeading {
+            return
+        }
+        lastHeading = Int(heading)
+        let headingStr = lastHeading.description // e.g. '130'
         let headingDigits = headingStr.map({"\($0)"})
-        sndHeading = AVSpeechUtterance(string: "heading \(headingDigits)")
+        let utterance = AVSpeechUtterance(string: "heading \(headingDigits)")
+        bufHeading.clear()
+        speechSynthesiser.write(utterance, toBufferCallback: bufHeading.receive)
     }
     
     func updateHeadingSecs(secs: Int) {
@@ -90,8 +112,22 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
         if audioFeedbackOn {
             audioFeedbackOn = false
             audioTimer?.invalidate()
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setActive(false)
+            }
+            catch {
+                logger.debug("Failed to set the audio session inactive")
+            }
         }
         else {
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setActive(true)
+            }
+            catch {
+                logger.debug("Failed to set the audio session active")
+            }
             audioFeedbackOn = true
             playAudioFeedbackSound() // play a sound immediately upon toggling audio back on
             createTimer()
@@ -205,14 +241,22 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
         case .none:
             break
         case .drum:
-            AudioServicesPlaySystemSound(self.sndNeutral)
+            sndNeutral?.play()
         case .high:
-            AudioServicesPlaySystemSound(self.sndHigh)
+            sndHigh?.play()
         case .low:
-            AudioServicesPlaySystemSound(self.sndLow)
+            sndLow?.play()
         case .heading:
-            if self.sndHeading != nil {
-                self.speechSynthesiser.speak(self.sndHeading!)
+            do {
+                if bufHeading.ready {
+                    sndHeading = try AVAudioPlayer(data: bufHeading.asData())
+                    sndHeading?.play()
+                }
+                else {
+                    logger.debug("Heading buffer is not ready")
+                }
+            } catch let e {
+                logger.debug("Failed to create heading audio player: \(e)")
             }
         }
     }

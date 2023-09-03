@@ -15,6 +15,7 @@
 		C995B2D32A0B21600037572A /* SteeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D22A0B21600037572A /* SteeringView.swift */; };
 		C995B2D52A0B218D0037572A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2D42A0B218D0037572A /* SettingsView.swift */; };
 		C996C7032A41270600C00B1A /* COMMANDS.md in Resources */ = {isa = PBXBuildFile; fileRef = C996C7022A41270600C00B1A /* COMMANDS.md */; };
+		C9C189B82AA427500076A7A8 /* SpeechBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C189B72AA427500076A7A8 /* SpeechBuffer.swift */; };
 		C9CE15FC2A21F93C00389886 /* Compass_120.png in Resources */ = {isa = PBXBuildFile; fileRef = C9CE15FB2A21F93C00389886 /* Compass_120.png */; };
 		C9DAC9982A34149200037F65 /* Compass_400.png in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC9972A34149200037F65 /* Compass_400.png */; };
 		C9DAC99C2A342E3800037F65 /* TargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC99B2A342E3800037F65 /* TargetView.swift */; };
@@ -26,7 +27,6 @@
 		C9E48FD42A06236900E1D702 /* viscompassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FD32A06236900E1D702 /* viscompassTests.swift */; };
 		C9E48FDE2A06236900E1D702 /* viscompassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FDD2A06236900E1D702 /* viscompassUITests.swift */; };
 		C9E48FE02A06236900E1D702 /* viscompassUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FDF2A06236900E1D702 /* viscompassUITestsLaunchTests.swift */; };
-		C9E48FEF2A06245E00E1D702 /* AudioFeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */; };
 		C9E48FFA2A06249200E1D702 /* side-drum-icon-27836.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */; };
 		C9E48FFB2A06249200E1D702 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF32A06249200E1D702 /* click_low.wav */; };
 		C9E48FFC2A06249200E1D702 /* Compass_512.png in Resources */ = {isa = PBXBuildFile; fileRef = C9E48FF42A06249200E1D702 /* Compass_512.png */; };
@@ -63,6 +63,7 @@
 		C995B2D22A0B21600037572A /* SteeringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeringView.swift; sourceTree = "<group>"; };
 		C995B2D42A0B218D0037572A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C996C7022A41270600C00B1A /* COMMANDS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = COMMANDS.md; sourceTree = SOURCE_ROOT; };
+		C9C189B72AA427500076A7A8 /* SpeechBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechBuffer.swift; sourceTree = "<group>"; };
 		C9CE15FB2A21F93C00389886 /* Compass_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_120.png; sourceTree = "<group>"; };
 		C9DAC9972A34149200037F65 /* Compass_400.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_400.png; sourceTree = "<group>"; };
 		C9DAC9992A34198A00037F65 /* viscompass2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "viscompass2-Info.plist"; sourceTree = "<group>"; };
@@ -78,7 +79,6 @@
 		C9E48FD92A06236900E1D702 /* viscompass2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = viscompass2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E48FDD2A06236900E1D702 /* viscompassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITests.swift; sourceTree = "<group>"; };
 		C9E48FDF2A06236900E1D702 /* viscompassUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viscompassUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFeedbackController.swift; sourceTree = "<group>"; };
 		C9E48FF22A06249200E1D702 /* side-drum-icon-27836.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "side-drum-icon-27836.png"; sourceTree = "<group>"; };
 		C9E48FF32A06249200E1D702 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
 		C9E48FF42A06249200E1D702 /* Compass_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_512.png; sourceTree = "<group>"; };
@@ -172,13 +172,13 @@
 				C996C73C2A45073400C00B1A /* Resources */,
 				C995B2CF2A0B21160037572A /* ContentViews */,
 				C9E48FC22A06236800E1D702 /* viscompassApp.swift */,
-				C9E48FEC2A06245E00E1D702 /* AudioFeedbackController.swift */,
 				C92F73DC2A314CE400267A4A /* HeadingFilter.swift */,
 				C9E48FC62A06236900E1D702 /* Assets.xcassets */,
 				C9E48FC82A06236900E1D702 /* Preview Content */,
 				C995B2CB2A09C9B00037572A /* SteeringModel.swift */,
 				C96E42B72A15B0ED0065FABC /* SettingsModel.swift */,
 				C995B2CD2A09CA160037572A /* AudioFeedbackModel.swift */,
+				C9C189B72AA427500076A7A8 /* SpeechBuffer.swift */,
 			);
 			path = viscompass;
 			sourceTree = "<group>";
@@ -351,10 +351,10 @@
 			files = (
 				C995B2D12A0B21420037572A /* CompassView.swift in Sources */,
 				C92F73DD2A314CE400267A4A /* HeadingFilter.swift in Sources */,
+				C9C189B82AA427500076A7A8 /* SpeechBuffer.swift in Sources */,
 				C995B2D32A0B21600037572A /* SteeringView.swift in Sources */,
 				C995B2D52A0B218D0037572A /* SettingsView.swift in Sources */,
 				C9E48FC52A06236800E1D702 /* MainView.swift in Sources */,
-				C9E48FEF2A06245E00E1D702 /* AudioFeedbackController.swift in Sources */,
 				C96E42B82A15B0ED0065FABC /* SettingsModel.swift in Sources */,
 				C9DAC9A02A357A1400037F65 /* HeaderView.swift in Sources */,
 				C9DAC99C2A342E3800037F65 /* TargetView.swift in Sources */,
