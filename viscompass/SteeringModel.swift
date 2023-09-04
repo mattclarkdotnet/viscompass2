@@ -71,10 +71,8 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     override init() {
         // TODO: deal with location manager heading service not being available
-        logger.debug("CREATING STEERING MODEL")
         locationManager = CLLocationManager()
         audioFeedbackModel = AudioFeedbackModel()
-        audioFeedbackModel.configureAudioSession()
         
         // Configure based on last used settings
         responsivenessIndex = store.responsivenessIndex

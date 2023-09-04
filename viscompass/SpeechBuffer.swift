@@ -8,9 +8,14 @@
 import Foundation
 import AVFoundation
 
-class SpeechBuffer {
+
+// This class creates a formatted WAV "file" in memory from a series of pcm buffers received from AVSpeechSynthesizer
+// This allows the speech to be played later via AVAudioPlayer, rather than immeditaely by the speech synthesizer
+// The channel count, sample rate etc are all currently hard coded.
+class SpeechBuffer  {
     private let wavBuffer: UnsafeMutableRawPointer = UnsafeMutableRawPointer.allocate(byteCount: 1000000, alignment: 1)  // preallocate a megabyte of memory for the generated speech
-    private var byteIndex: Int = 0
+    private var byteIndex: Int = 0  // current next index to store incoming samples
+    private var wavLength: Int = 0  // final total length of WAV formatted buffer
     
     var ready: Bool = false
     
@@ -19,15 +24,13 @@ class SpeechBuffer {
         byteIndex = 44 // length of WAV header that will get inserted later
     }
     
-    func finalise() {
-        storeWAVHeader()
-        ready = true
-    }
-    
     func receive(buffer: AVAudioBuffer) {
         let pcmBuffer = buffer as! AVAudioPCMBuffer
         if pcmBuffer.frameLength == 0 {
-            finalise()
+            wavLength = byteIndex
+            byteIndex = 44
+            storeWAVHeader()
+            ready = true
         }
         else {
             if byteIndex + Int(pcmBuffer.frameLength) * 2 >= 1000000 {
@@ -41,7 +44,7 @@ class SpeechBuffer {
     }
     
     func asData() -> Data {
-        return Data(bytes: wavBuffer, count: byteIndex)
+        return Data(bytes: wavBuffer, count: wavLength)
     }
     
     func storeStr(s: String, at: Int) {
@@ -52,7 +55,7 @@ class SpeechBuffer {
     
     func storeWAVHeader() {
         storeStr(s: "RIFF", at: 0) // RIFF header start
-        wavBuffer.storeBytes(of: UInt32(byteIndex).littleEndian, toByteOffset: 4, as: UInt32.self) // total file length
+        wavBuffer.storeBytes(of: UInt32(wavLength).littleEndian, toByteOffset: 4, as: UInt32.self) // total file length
         storeStr(s: "WAVE", at: 8) // RIFF header start
         storeStr(s: "fmt ", at: 12) // start of fmt chunk
         wavBuffer.storeBytes(of: UInt32(16).littleEndian, toByteOffset: 16, as: UInt32.self) // format header length
@@ -63,6 +66,6 @@ class SpeechBuffer {
         wavBuffer.storeBytes(of: UInt16(2).littleEndian, toByteOffset: 32, as: UInt16.self) // block alignment
         wavBuffer.storeBytes(of: UInt16(16).littleEndian, toByteOffset: 34, as: UInt16.self) // bits per sample
         storeStr(s: "data", at: 36)  // start of data chunk
-        wavBuffer.storeBytes(of: UInt32(byteIndex - 44).littleEndian, toByteOffset: 40, as: UInt32.self) // sample data length
+        wavBuffer.storeBytes(of: UInt32(wavLength - 44).littleEndian, toByteOffset: 40, as: UInt32.self) // sample data length
     }
 }

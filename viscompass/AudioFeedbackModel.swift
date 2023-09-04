@@ -10,8 +10,6 @@
 //
 
 import Foundation
-import AVFoundation
-
 
 enum AudioFeedbackSound: String {
     case high = "high"
@@ -33,8 +31,9 @@ enum OnCourseFeedbackType: String {
 }
 
 
-
-class AudioFeedbackModel { // we don't make this observable, so as to avoid effing around with nested models for SwiftUI
+// This class is responsible for deciding what sounds to make and when
+// we don't make this observable, so as to avoid effing around with nested models for SwiftUI
+class AudioFeedbackModel {
     
     private (set) var headingSecs = 10
     private (set) var audioFeedbackOn: Bool = false
@@ -49,43 +48,13 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
     private var lastHeading: Int = -1
     private var audioTimer: Timer?
     
-    private let speechSynthesiser: AVSpeechSynthesizer = AVSpeechSynthesizer()
-    
-    private var sndHigh: AVAudioPlayer?
-    private var sndLow: AVAudioPlayer?
-    private var sndNeutral: AVAudioPlayer?
-    private var sndHeading: AVAudioPlayer?
-    
-    private var bufHeading: SpeechBuffer = SpeechBuffer()
-
-    func configureAudioSession() {
-        // Retrieve the shared audio session.
-        logger.info("Configuring audio session")
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            // Set the audio session category and mode.
-            try audioSession.setCategory(.playback, mode: .default)
-            logger.debug("Set audio session to category .playback, mode .default")
-            sndHigh = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "click_high.wav", ofType: nil)!))
-            sndLow = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "click_low.wav", ofType: nil)!))
-            sndNeutral = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "drum200.wav", ofType: nil)!))
-            logger.debug("Loaded static sound files")
-            
-        } catch {
-            logger.debug("Failed to set the audio session configuration")
-        }
-    }
+    private let audioGenerator: AudioGenerator = AudioGenerator()
     
     func updateHeading(heading: Double) {
-        if Int(heading) == lastHeading {
-            return
-        }
         lastHeading = Int(heading)
         let headingStr = lastHeading.description // e.g. '130'
         let headingDigits = headingStr.map({"\($0)"})
-        let utterance = AVSpeechUtterance(string: "heading \(headingDigits)")
-        bufHeading.clear()
-        speechSynthesiser.write(utterance, toBufferCallback: bufHeading.receive)
+        audioGenerator.setHeadingPhrase(phrase: "heading \(headingDigits)")
     }
     
     func updateHeadingSecs(secs: Int) {
@@ -112,22 +81,10 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
         if audioFeedbackOn {
             audioFeedbackOn = false
             audioTimer?.invalidate()
-            let audioSession = AVAudioSession.sharedInstance()
-            do {
-                try audioSession.setActive(false)
-            }
-            catch {
-                logger.debug("Failed to set the audio session inactive")
-            }
+            audioGenerator.deactivate()
         }
         else {
-            let audioSession = AVAudioSession.sharedInstance()
-            do {
-                try audioSession.setActive(true)
-            }
-            catch {
-                logger.debug("Failed to set the audio session active")
-            }
+            audioGenerator.activate()
             audioFeedbackOn = true
             playAudioFeedbackSound() // play a sound immediately upon toggling audio back on
             createTimer()
@@ -174,6 +131,9 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
         }
     }
     
+    // This method is rather long and tortuous, but the complexity is inherent in getting the right user experience
+    // when changing the type or timing of audio feedback.  Humans love rhythm, so the audio feedback sounds very wrong
+    // if we naively make changes - we have to land the next sound "on the beat"
     private func updateAudioFeedback() {
         let (nextFeedbackSound, nextFeedbackInterval) = nextSoundAndInterval()
         if nextFeedbackSound == feedbackSound && nextFeedbackInterval == feedbackInterval {
@@ -236,28 +196,6 @@ class AudioFeedbackModel { // we don't make this observable, so as to avoid effi
     }
     
     @objc private func playAudioFeedbackSound() {
-        //logger.debug("playAudioFeedbackSound called, audioFeedbackOn is \(self.audioFeedbackOn.description), sound is \(self.feedbackSound.rawValue)")
-        switch feedbackSound {
-        case .none:
-            break
-        case .drum:
-            sndNeutral?.play()
-        case .high:
-            sndHigh?.play()
-        case .low:
-            sndLow?.play()
-        case .heading:
-            do {
-                if bufHeading.ready {
-                    sndHeading = try AVAudioPlayer(data: bufHeading.asData())
-                    sndHeading?.play()
-                }
-                else {
-                    logger.debug("Heading buffer is not ready")
-                }
-            } catch let e {
-                logger.debug("Failed to create heading audio player: \(e)")
-            }
-        }
+        audioGenerator.playSound(kind: feedbackSound)
     }
 }
