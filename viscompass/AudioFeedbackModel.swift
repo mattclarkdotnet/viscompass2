@@ -34,36 +34,41 @@ enum OnCourseFeedbackType: String {
 // This class is responsible for deciding what sounds to make and when
 // we don't make this observable, so as to avoid effing around with nested models for SwiftUI
 class AudioFeedbackModel {
-    
-    private (set) var headingSecs = 10
-    private (set) var audioFeedbackOn: Bool = false
-    private (set) var audioFeedbackMode: AudioFeedbackMode = .steering
-    private (set) var onCourseFeedbackType: OnCourseFeedbackType = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
+    private var audioFeedbackOn: Bool = false
+    private var audioFeedbackMode: AudioFeedbackMode = .steering
+    private var onCourseFeedbackType: OnCourseFeedbackType = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
+    private var headingFeedbackInterval: TimeInterval = 10
     private var feedbackInterval: TimeInterval = 0
     private var feedbackSound: AudioFeedbackSound = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
     private var feedbackHeading: Int = 0
     private var feedbackUrgency: Int = 0
     private var feedbackDirection: Turn = .none
-    
-    private var lastHeading: Int = -1
+    private var lastHeading: Int = -999 // dummy value to force update of heading utterance on first call to updateHeading
     private var audioTimer: Timer?
     
     private let audioGenerator: AudioGenerator = AudioGenerator()
     
-    func updateHeading(heading: Double) {
-        lastHeading = Int(heading)
-        let headingStr = lastHeading.description // e.g. '130'
-        let headingDigits = headingStr.map({"\($0)"})
+    func updateHeading(heading: Int) {
+        if lastHeading == heading {
+            return
+        }
+        lastHeading = heading
+        let headingDigits = lastHeading.description.map({"\($0)"})
         audioGenerator.setHeadingPhrase(phrase: "heading \(headingDigits)")
     }
     
-    func updateHeadingSecs(secs: Int) {
-        headingSecs = secs
-        logger.debug("secs: \(secs)")
+    func updateHeadingSecs(secs: TimeInterval) {
+        if headingFeedbackInterval == secs {
+            return
+        }
+        headingFeedbackInterval = TimeInterval(secs)
         updateAudioFeedback()
     }
     
     func setFeedbackMode(mode: AudioFeedbackMode) {
+        if audioFeedbackMode == mode {
+            return
+        }
         audioFeedbackMode = mode
         updateAudioFeedback()
     }
@@ -77,7 +82,7 @@ class AudioFeedbackModel {
         updateAudioFeedback()
     }
 
-    func toggleFeedback() {
+    func toggleFeedback() -> Bool {
         if audioFeedbackOn {
             audioFeedbackOn = false
             audioTimer?.invalidate()
@@ -89,11 +94,13 @@ class AudioFeedbackModel {
             playAudioFeedbackSound() // play a sound immediately upon toggling audio back on
             createTimer()
         }
-        logger.debug("Toggled audio feedback, new is \(self.audioFeedbackOn)")
+        return audioFeedbackOn
     }
     
     func setOnCourseFeedbackType(feedbacktype: OnCourseFeedbackType) {
-        logger.debug("Setting on course feedback type to \(feedbacktype.rawValue)")
+        if onCourseFeedbackType == feedbacktype {
+            return
+        }
         onCourseFeedbackType = feedbacktype
         updateAudioFeedback()
     }
@@ -113,7 +120,7 @@ class AudioFeedbackModel {
     
     private func nextSoundAndInterval() -> (AudioFeedbackSound, TimeInterval) {
         if audioFeedbackMode == .compass {
-            return (.heading, Double(headingSecs))
+            return (.heading, Double(headingFeedbackInterval))
         }
         else if feedbackUrgency == 0 {
             // we are within tolerance
@@ -121,7 +128,7 @@ class AudioFeedbackModel {
             case .drum:
                 return (.drum, 5.0)
             case .heading:
-                return (.heading, Double(headingSecs))
+                return (.heading, Double(headingFeedbackInterval))
             case .off:
                 return (.none, 0.0)
             }

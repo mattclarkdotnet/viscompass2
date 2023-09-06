@@ -32,6 +32,7 @@ struct CompassView: View {
             Spacer()
             ResponsivenessPickerView()
         }
+        .padding(5)
         .onAppear(perform: { steeringModel.audioFeedbackModel.setFeedbackMode(mode: .compass) })
     }
 

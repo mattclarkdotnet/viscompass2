@@ -35,7 +35,7 @@ struct SettingsView: View {
             HeadingSecsView().padding([.top], 20)
             ResetTargetWithAudioView().padding([.top], 20)
             Spacer()
-        }
+        }.padding(5)
     }
 }
 
@@ -75,7 +75,7 @@ struct TackDegreesView: View {
             .pickerStyle(.segmented)
             .onChange(of: storage.tackDegrees) {
                 tackDegrees in
-                steeringModel.setTackDegrees(newTackDegrees: Double(tackDegrees))
+                steeringModel.setTackDegrees(newTackDegrees: tackDegrees)
             }
         }
     }
@@ -97,7 +97,7 @@ struct HeadingSecsView: View {
             .pickerStyle(.segmented)
             .onChange(of: storage.headingSecs) {
                 headingSecs in
-                steeringModel.audioFeedbackModel.updateHeadingSecs(secs: headingSecs)
+                steeringModel.audioFeedbackModel.updateHeadingSecs(secs: TimeInterval(headingSecs))
             }
         }
     }
@@ -119,7 +119,7 @@ struct TargetAdjustView: View {
             .pickerStyle(.segmented)
             .onChange(of: storage.targetAdjustDegrees) {
                 targetAdjustDegrees in
-                steeringModel.setTargetAdjustDegrees(targetAdjustDegrees: Double(targetAdjustDegrees))
+                steeringModel.setTargetAdjustDegrees(targetAdjustDegrees: targetAdjustDegrees)
             }
         }
     }
@@ -165,7 +165,7 @@ struct TolerancePickerView: View {
             .pickerStyle(.segmented)
             .onChange(of: storage.toleranceDegrees) {
                 tolerance in
-                steeringModel.setTolerance(newTolerance: Double(tolerance))
+                steeringModel.setTolerance(newTolerance: tolerance)
             }
         }
     }

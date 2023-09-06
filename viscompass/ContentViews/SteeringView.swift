@@ -38,7 +38,7 @@ struct SteeringView: View {
                     Image(systemName: "arrowtriangle.left.fill")
                         .resizable()
                         .scaledToFit()
-                        .foregroundColor(steeringModel.correctingNow() == .port ? .red : .gray)
+                        .foregroundColor(steeringModel.correctionDirection == .port ? .red : .gray)
                     
                     VStack {
                         Text(Int(steeringModel.correctionAmount).description + "º")
@@ -48,7 +48,7 @@ struct SteeringView: View {
                     Image(systemName: "arrowtriangle.right.fill")
                         .resizable()
                         .scaledToFit()
-                        .foregroundColor(steeringModel.correctingNow() == .stbd ? .green : .gray)
+                        .foregroundColor(steeringModel.correctionDirection == .stbd ? .green : .gray)
                     
                 }
             }
@@ -58,6 +58,7 @@ struct SteeringView: View {
                 ResponsivenessPickerView().padding([.top], 20)
             }
         }
+        .padding(5)
         .onAppear(perform: { steeringModel.audioFeedbackModel.setFeedbackMode(mode: .steering) })
     }
 }
