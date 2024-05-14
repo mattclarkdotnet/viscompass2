@@ -76,12 +76,13 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         audioFeedbackModel = AudioFeedbackModel()
         
         // Configure based on last used settings
+
         responsivenessIndex = store.responsivenessIndex
         toleranceDegrees = max(store.toleranceDegrees, 5)
         northType = store.northType
         tackDegrees = store.tackDegrees
         targetAdjustDegrees = store.targetAdjustDegrees
-        audioFeedbackModel.setOnCourseFeedbackType(feedbacktype: store.feedbackType)
+        //audioFeedbackModel.updateAudioFeedback()
 
         super.init() // do this after loading defaults from storage
         
@@ -120,10 +121,11 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func toggleAudioFeedback() {
-        audioFeedbackOn = audioFeedbackModel.toggleFeedback()
-        if audioFeedbackOn && store.resetTargetWithAudio {
+        if !audioFeedbackOn && store.resetTargetWithAudio {
             setTarget(target: headingSmoothed)
         }
+        audioFeedbackOn = audioFeedbackModel.toggleFeedback()
+        
     }
     
     func increaseTarget() {

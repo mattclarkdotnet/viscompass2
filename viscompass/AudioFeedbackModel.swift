@@ -36,8 +36,8 @@ enum OnCourseFeedbackType: String {
 class AudioFeedbackModel {
     private var audioFeedbackOn: Bool = false
     private var audioFeedbackMode: AudioFeedbackMode = .steering
-    private var onCourseFeedbackType: OnCourseFeedbackType = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
-    private var headingFeedbackInterval: TimeInterval = 10
+    private var onCourseFeedbackType: OnCourseFeedbackType  // set from store
+    private var headingFeedbackInterval: TimeInterval // set from store
     private var feedbackInterval: TimeInterval = 0
     private var feedbackSound: AudioFeedbackSound = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
     private var feedbackHeading: Int = 0
@@ -47,6 +47,13 @@ class AudioFeedbackModel {
     private var audioTimer: Timer?
     
     private let audioGenerator: AudioGenerator = AudioGenerator()
+    
+    private let store = SettingsStorage()
+    
+    init() {
+        headingFeedbackInterval = TimeInterval(store.headingSecs)
+        onCourseFeedbackType = store.feedbackType
+    }
     
     func updateHeading(heading: Int) {
         if lastHeading == heading {
@@ -126,7 +133,7 @@ class AudioFeedbackModel {
             // we are within tolerance
             switch onCourseFeedbackType {
             case .drum:
-                return (.drum, 5.0)
+                return (.drum, Double(headingFeedbackInterval))
             case .heading:
                 return (.heading, Double(headingFeedbackInterval))
             case .off:
@@ -141,7 +148,7 @@ class AudioFeedbackModel {
     // This method is rather long and tortuous, but the complexity is inherent in getting the right user experience
     // when changing the type or timing of audio feedback.  Humans love rhythm, so the audio feedback sounds very wrong
     // if we naively make changes - we have to land the next sound "on the beat"
-    private func updateAudioFeedback() {
+    func updateAudioFeedback() {
         let (nextFeedbackSound, nextFeedbackInterval) = nextSoundAndInterval()
         if nextFeedbackSound == feedbackSound && nextFeedbackInterval == feedbackInterval {
             logger.debug("interval and sound are unchanged")

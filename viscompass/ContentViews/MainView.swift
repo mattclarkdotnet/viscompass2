@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selection: Tab = .navigation
-
+    
     enum Tab {
         case navigation
         case compass

@@ -25,7 +25,7 @@ class AudioGenerator: NSObject, AVSpeechSynthesizerDelegate {
     override init() {
         super.init()
         configureAudioSession()
-        speechSynthesizer.delegate = self
+//        speechSynthesizer.delegate = self
     }
     
     
@@ -73,12 +73,12 @@ class AudioGenerator: NSObject, AVSpeechSynthesizerDelegate {
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         logger.debug("Finished speaking")
-        do {
-            sndHeading = try AVAudioPlayer(data: bufHeading.asData())
-            sndHeading?.play()
-        } catch let e {
-            logger.debug("Failed to create heading audio player: \(e)")
-        }
+//        do {
+//            sndHeading = try AVAudioPlayer(data: bufHeading.asData())
+//            sndHeading?.play()
+//        } catch let e {
+//            logger.debug("Failed to create heading audio player: \(e)")
+//        }
     }
     
     func playSound(kind: AudioFeedbackSound) {
@@ -92,19 +92,24 @@ class AudioGenerator: NSObject, AVSpeechSynthesizerDelegate {
         case .low:
             sndLow?.play()
         case .heading:
-            if headingPhrase != lastSpokenPhrase {
-                let utterance = AVSpeechUtterance(string: headingPhrase)
-                bufHeading.clear()
-                speechSynthesizer.write(utterance, toBufferCallback: bufHeading.receive)
-                lastSpokenPhrase = headingPhrase
-                // this logic completes  asynchronously in the didFinish delegate of AVSpeechSynthesizer
-                // because it takes a short time (<100ms) for the the speech to be generated and buffered
-                // so this method will return, and when the speech is ready playHeading() will be called
-            }
-            else {
-                // resuse the last played heading
-                sndHeading?.play()
-            }
+            let utterance = AVSpeechUtterance(string: headingPhrase)
+            speechSynthesizer.speak(utterance)
+            lastSpokenPhrase = headingPhrase
+            
+//          if headingPhrase != lastSpokenPhrase {
+//                let utterance = AVSpeechUtterance(string: headingPhrase)
+//                bufHeading.clear()
+//                speechSynthesizer.write(utterance, toBufferCallback: bufHeading.receive)
+//                speechSynthesizer.speak(utterance)
+//                lastSpokenPhrase = headingPhrase
+//                // this logic completes  asynchronously in the didFinish delegate of AVSpeechSynthesizer
+//                // because it takes a short time (<100ms) for the the speech to be generated and buffered
+//                // so this method will return, and when the speech is ready playHeading() will be called
+//            }
+//            else {
+//                // resuse the last played heading
+//                sndHeading?.play()
+//            }
         }
     }
     
