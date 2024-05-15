@@ -28,7 +28,7 @@ struct SensitivitySetting {
 let e = 2.718281
 let factor_after_max_time: Double = 0.05
 let time_resolution = 0.1
-let max_time = 20.0
+let max_time = 32.0
 let max_samples = Int(max_time/time_resolution)
 
 

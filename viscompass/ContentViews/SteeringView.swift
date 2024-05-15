@@ -27,7 +27,8 @@ The responsiveness picker is used to set how rapidly the app resposnds to change
 
 struct SteeringView: View {
     @EnvironmentObject var steeringModel: SteeringModel
-
+    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
+    
     var body: some View {
         VStack {
             HeaderView(helpTitle: "Steering Help", helpText: steeringHelpText, showHeading: true)
@@ -59,7 +60,7 @@ struct SteeringView: View {
             }
         }
         .padding(5)
-        .onAppear(perform: { steeringModel.audioFeedbackModel.setFeedbackMode(mode: .steering) })
+        .onAppear(perform: { audioFeedbackModel.updateFeedbackMode(mode: .steering) })
     }
 }
 

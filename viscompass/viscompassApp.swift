@@ -14,10 +14,12 @@ let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(d
 struct viscompassApp: App {
     
     @StateObject var steeringModel = SteeringModel()
+    @StateObject var audioFeedbackModel = AudioFeedbackModel()
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environmentObject(steeringModel)
+                .environmentObject(audioFeedbackModel)
         }
     }
 }

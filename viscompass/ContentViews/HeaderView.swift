@@ -14,6 +14,7 @@ struct HeaderView: View {
     let showHeading: Bool
     
     @EnvironmentObject var steeringModel: SteeringModel
+    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
     @State private var showingHelp = false
     
     var body: some View {
@@ -52,7 +53,7 @@ struct HeaderView: View {
                     steeringModel.toggleAudioFeedback()
                 })
                 {
-                    Image(systemName: steeringModel.audioFeedbackOn ? "pause.circle" : "play.circle")
+                    Image(systemName: audioFeedbackModel.audioFeedbackOn ? "pause.circle" : "play.circle")
                         .resizable()
                         .frame(width:50, height:50)
                 }.accessibilityInputLabels(["Audio", "Audio on off", "Pause", "Start", "Stop", "Pause Audio", "Start Audio", "Stop audio", "Feedback"])

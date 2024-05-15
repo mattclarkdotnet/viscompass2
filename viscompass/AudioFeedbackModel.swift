@@ -33,17 +33,17 @@ enum OnCourseFeedbackType: String {
 
 // This class is responsible for deciding what sounds to make and when
 // we don't make this observable, so as to avoid effing around with nested models for SwiftUI
-class AudioFeedbackModel {
-    private var audioFeedbackOn: Bool = false
+class AudioFeedbackModel: ObservableObject {
+    @Published private (set) var audioFeedbackOn: Bool = false
+    
     private var audioFeedbackMode: AudioFeedbackMode = .steering
     private var onCourseFeedbackType: OnCourseFeedbackType  // set from store
     private var headingFeedbackInterval: TimeInterval // set from store
     private var feedbackInterval: TimeInterval = 0
-    private var feedbackSound: AudioFeedbackSound = .drum // Just a default, actually gets set from stored prefs by the SteeringModel
+    private var feedbackSound: AudioFeedbackSound = .drum // Just a default, get's set on first call to updateAudioFeedback
     private var feedbackHeading: Int = 0
     private var feedbackUrgency: Int = 0
     private var feedbackDirection: Turn = .none
-    private var lastHeading: Int = -999 // dummy value to force update of heading utterance on first call to updateHeading
     private var audioTimer: Timer?
     
     private let audioGenerator: AudioGenerator = AudioGenerator()
@@ -55,16 +55,12 @@ class AudioFeedbackModel {
         onCourseFeedbackType = store.feedbackType
     }
     
-    func updateHeading(heading: Int) {
-        if lastHeading == heading {
-            return
-        }
-        lastHeading = heading
-        let headingDigits = lastHeading.description.map({"\($0)"})
-        audioGenerator.setHeadingPhrase(phrase: "heading \(headingDigits)")
+    func updateHeadingPhrase(heading: Int) {
+        let headingDigits = heading.description.map({"\($0)"})
+        audioGenerator.headingPhrase = "heading \(headingDigits)"
     }
     
-    func updateHeadingSecs(secs: TimeInterval) {
+    func updateHeadingFeedbackInterval(secs: TimeInterval) {
         if headingFeedbackInterval == secs {
             return
         }
@@ -72,7 +68,7 @@ class AudioFeedbackModel {
         updateAudioFeedback()
     }
     
-    func setFeedbackMode(mode: AudioFeedbackMode) {
+    func updateFeedbackMode(mode: AudioFeedbackMode) {
         if audioFeedbackMode == mode {
             return
         }
@@ -89,6 +85,14 @@ class AudioFeedbackModel {
         updateAudioFeedback()
     }
 
+    func updateOnCourseFeedbackType(feedbacktype: OnCourseFeedbackType) {
+        if onCourseFeedbackType == feedbacktype {
+            return
+        }
+        onCourseFeedbackType = feedbacktype
+        updateAudioFeedback()
+    }
+    
     func toggleFeedback() -> Bool {
         if audioFeedbackOn {
             audioFeedbackOn = false
@@ -104,13 +108,6 @@ class AudioFeedbackModel {
         return audioFeedbackOn
     }
     
-    func setOnCourseFeedbackType(feedbacktype: OnCourseFeedbackType) {
-        if onCourseFeedbackType == feedbacktype {
-            return
-        }
-        onCourseFeedbackType = feedbacktype
-        updateAudioFeedback()
-    }
     
     // Private methods
     

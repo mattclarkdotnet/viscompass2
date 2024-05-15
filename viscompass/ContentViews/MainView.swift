@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selection: Tab = .navigation
+    @EnvironmentObject var steeringModel: SteeringModel
+    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
     
     enum Tab {
         case navigation
@@ -39,7 +41,7 @@ struct MainView: View {
         .padding(EdgeInsets(top: 5, leading: 15, bottom: 0, trailing: 15))
         .onAppear() {
             UIApplication.shared.isIdleTimerDisabled = true // When VISCompass is running in the foreground, the phone will not dim the display or go to the lock screen
-            
+            steeringModel.audioFeedbackModel = audioFeedbackModel
         }
     }
 }

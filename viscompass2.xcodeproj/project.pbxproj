@@ -18,6 +18,7 @@
 		C9C189B82AA427500076A7A8 /* SpeechBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C189B72AA427500076A7A8 /* SpeechBuffer.swift */; };
 		C9C189BA2AA55E1B0076A7A8 /* AudioGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C189B92AA55E1B0076A7A8 /* AudioGenerator.swift */; };
 		C9CE15FC2A21F93C00389886 /* Compass_120.png in Resources */ = {isa = PBXBuildFile; fileRef = C9CE15FB2A21F93C00389886 /* Compass_120.png */; };
+		C9D65C312BF31627005F0797 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D65C302BF31627005F0797 /* Util.swift */; };
 		C9DAC9982A34149200037F65 /* Compass_400.png in Resources */ = {isa = PBXBuildFile; fileRef = C9DAC9972A34149200037F65 /* Compass_400.png */; };
 		C9DAC99C2A342E3800037F65 /* TargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC99B2A342E3800037F65 /* TargetView.swift */; };
 		C9DAC9A02A357A1400037F65 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DAC99F2A357A1400037F65 /* HeaderView.swift */; };
@@ -67,6 +68,7 @@
 		C9C189B72AA427500076A7A8 /* SpeechBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechBuffer.swift; sourceTree = "<group>"; };
 		C9C189B92AA55E1B0076A7A8 /* AudioGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioGenerator.swift; sourceTree = "<group>"; };
 		C9CE15FB2A21F93C00389886 /* Compass_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_120.png; sourceTree = "<group>"; };
+		C9D65C302BF31627005F0797 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		C9DAC9972A34149200037F65 /* Compass_400.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass_400.png; sourceTree = "<group>"; };
 		C9DAC9992A34198A00037F65 /* viscompass2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "viscompass2-Info.plist"; sourceTree = "<group>"; };
 		C9DAC99B2A342E3800037F65 /* TargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetView.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				C9E48FC62A06236900E1D702 /* Assets.xcassets */,
 				C9E48FC82A06236900E1D702 /* Preview Content */,
 				C995B2CB2A09C9B00037572A /* SteeringModel.swift */,
+				C9D65C302BF31627005F0797 /* Util.swift */,
 				C96E42B72A15B0ED0065FABC /* SettingsModel.swift */,
 				C995B2CD2A09CA160037572A /* AudioFeedbackModel.swift */,
 				C9C189B92AA55E1B0076A7A8 /* AudioGenerator.swift */,
@@ -275,7 +278,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					C9E48FBE2A06236800E1D702 = {
 						CreatedOnToolsVersion = 14.2;
@@ -363,6 +366,7 @@
 				C9DAC99C2A342E3800037F65 /* TargetView.swift in Sources */,
 				C995B2CC2A09C9B00037572A /* SteeringModel.swift in Sources */,
 				C9E48FC32A06236800E1D702 /* viscompassApp.swift in Sources */,
+				C9D65C312BF31627005F0797 /* Util.swift in Sources */,
 				C9C189BA2AA55E1B0076A7A8 /* AudioGenerator.swift in Sources */,
 				C995B2CE2A09CA160037572A /* AudioFeedbackModel.swift in Sources */,
 			);
@@ -437,6 +441,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -497,6 +502,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

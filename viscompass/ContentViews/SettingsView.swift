@@ -28,13 +28,13 @@ struct SettingsView: View {
         VStack {
             HeaderView(helpTitle: "Settings Help", helpText: settingsHelpText, showHeading: true)
             Spacer()
-            FeedbackPickerView().padding([.top], 20)
-            TackDegreesView().padding([.top], 20)
-            NorthTypePickerView().padding([.top], 20)
-            TargetAdjustView().padding([.top], 20)
-            HeadingSecsView().padding([.top], 20)
-            ResetTargetWithAudioView().padding([.top], 20)
-            Spacer()
+            FeedbackPickerView().padding([.top], 15)
+            TackDegreesView().padding([.top], 15)
+            NorthTypePickerView().padding([.top], 15)
+            TargetAdjustView().padding([.top], 15)
+            HeadingSecsView().padding([.top], 15)
+            ResponsivenessPickerView().padding([.top], 15)
+            ResetTargetWithAudioView().padding([.top], 15)
         }.padding(5)
     }
 }
@@ -82,7 +82,7 @@ struct TackDegreesView: View {
 }
 
 struct HeadingSecsView: View {
-    @EnvironmentObject var steeringModel: SteeringModel
+    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
     @StateObject var storage = SettingsStorage()
     let options = [5,10,15,20,30]
 
@@ -97,7 +97,7 @@ struct HeadingSecsView: View {
             .pickerStyle(.segmented)
             .onChange(of: storage.headingSecs) {
                 headingSecs in
-                steeringModel.audioFeedbackModel.updateHeadingSecs(secs: TimeInterval(headingSecs))
+                audioFeedbackModel.updateHeadingFeedbackInterval(secs: TimeInterval(headingSecs))
             }
         }
     }
@@ -128,6 +128,7 @@ struct TargetAdjustView: View {
 
 struct FeedbackPickerView: View {
     @EnvironmentObject var steeringModel: SteeringModel
+    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
     @StateObject var storage = SettingsStorage()
     
     var body: some View {
@@ -142,7 +143,7 @@ struct FeedbackPickerView: View {
             .pickerStyle(.segmented)
             .onChange(of: storage.feedbackType) {
                 feedbackType in
-                steeringModel.audioFeedbackModel.setOnCourseFeedbackType(feedbacktype: feedbackType)
+                audioFeedbackModel.updateOnCourseFeedbackType(feedbacktype: feedbackType)
                 steeringModel.updateModel()
             }
         }

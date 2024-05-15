@@ -8,43 +8,31 @@
 import Foundation
 import CoreLocation
 
-enum NorthType: String {
-    case truenorth = "true"
-    case magneticnorth = "magnetic"
-}
-
-enum Turn {
-    case port
-    case stbd
-    case none
-}
-
-typealias WholeDegrees = Int
-
-extension WholeDegrees {
-    // Returns our value constrained to compass values, that is to say between zero and 360 (0 <= v < 360)
-    func normalised() -> Self {
-        let r = self % 360
-        return r < 0 ? r + 360 : r
+class CompassModel: NSObject, CLLocationManagerDelegate {
+    private let locationManager = CLLocationManager()
+    let headingUpdatesTrue = HeadingFilter()
+    let headingUpdatesMagnetic = HeadingFilter()
+    
+    override init() {
+        super.init()
+        // Receive heading updates bigger than 1 degree
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.headingFilter = 1.0    // minimum change in degrees to generate an event
+        locationManager.startUpdatingHeading()
     }
     
-    // Returns the bearing or "steering difference" between our value and another value.
-    // This is a natural idea in sailing but requires the handling of some edge cases
-    // examples:
-    // 350.steeringDifference(to: 10) -> 20
-    // 10.steeringDifference(to: 350) -> -20
-    // 10.steeringDifference(to: 40) -> 30
-    // 10.steeringDifference(to: 180) -> 170
-    // 10.steeringDifference(to: 200) -> -170
-    // 185.steeringDifference(to: 195) -> 10
-    func bearingTo(to: Self) -> Self {
-        let rawDiff = (to.normalised() - self.normalised()).normalised()
-        return rawDiff > 180 ? rawDiff - 360 : rawDiff
+    //CLLocationManagerDelegate
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        headingUpdatesTrue.add_reading(value: newHeading.trueHeading)
+        headingUpdatesMagnetic.add_reading(value: newHeading.magneticHeading)
     }
 }
 
 
-class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+
+
+class SteeringModel: ObservableObject {
     @Published private (set) var headingSmoothed: WholeDegrees = 0  // these published values use Int as they are displayed in that format
     @Published private (set) var headingTarget: WholeDegrees = 0
     @Published private (set) var correctionAmount: WholeDegrees = 0
@@ -53,48 +41,29 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // Marking these published but private so the views invalidate when they change, but they aren't observed directly
     @Published private var toleranceDegrees: WholeDegrees = 10
+    @Published private var correctionUrgency: Int = 0 // restricted to between 0 and 3
     
-    private var correctionUrgency: Int = 0 // restricted to between 0 and 3
     private var responsivenessIndex: Int
     private var northType: NorthType
     private var tackDegrees: Int
     private var targetAdjustDegrees: Int
-    
-    private let locationManager: CLLocationManager
-    private let headingUpdatesTrue = HeadingFilter()
-    private let headingUpdatesMagnetic = HeadingFilter()
-    
+    private var modelUpdateTimer: Timer?
     private let store = SettingsStorage()
+    private let compassModel = CompassModel()
+    var audioFeedbackModel: AudioFeedbackModel? = nil // will be set on load by the main view
     
-    private var headingUpdateTimer: Timer?
     
-    let audioFeedbackModel: AudioFeedbackModel
-    
-    override init() {
-        // TODO: deal with location manager heading service not being available
-        locationManager = CLLocationManager()
-        audioFeedbackModel = AudioFeedbackModel()
-        
+    init() {
         // Configure based on last used settings
-
         responsivenessIndex = store.responsivenessIndex
         toleranceDegrees = max(store.toleranceDegrees, 5)
         northType = store.northType
         tackDegrees = store.tackDegrees
         targetAdjustDegrees = store.targetAdjustDegrees
-        //audioFeedbackModel.updateAudioFeedback()
 
-        super.init() // do this after loading defaults from storage
-        
-        // Receive heading updates bigger than 1 degree
-        locationManager.delegate = self
-        locationManager.headingFilter = 1.0    // minimum change in degrees to generate an event
-        locationManager.startUpdatingHeading()
-        
-        // Update the model once a second.  This also causes the filtered heading to be updated
-        // which is important, because the filtered value converges over time, so we can't just
-        // update it when a new value arrives
-        headingUpdateTimer = Timer.scheduledTimer(timeInterval: 1.0,
+        // Update the model once a second.  This different from the underlying CompassModel, which updates on changes in heading
+        // The smoothed/filtered value used by the model will update even in the absence of new heading updates
+        modelUpdateTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                                   target: self,
                                                   selector: #selector(SteeringModel.updateModel),
                                                   userInfo: nil,
@@ -103,7 +72,6 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func setResponsiveness(_ index: Int) {
         responsivenessIndex = index
-        logger.debug("new responsiveness: \(index.description)")
     }
     
     func setNorthType(newNorthType: NorthType) {
@@ -124,7 +92,9 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         if !audioFeedbackOn && store.resetTargetWithAudio {
             setTarget(target: headingSmoothed)
         }
-        audioFeedbackOn = audioFeedbackModel.toggleFeedback()
+        if audioFeedbackModel != nil {
+            audioFeedbackOn = audioFeedbackModel!.toggleFeedback()
+        }
         
     }
     
@@ -159,12 +129,12 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     @objc func updateModel() {
-        let observations = northType == .truenorth ? headingUpdatesTrue : headingUpdatesMagnetic
+        let observations = northType == .truenorth ? compassModel.headingUpdatesTrue : compassModel.headingUpdatesMagnetic
         
         let newHeadingSmoothed = WholeDegrees(observations.filtered(sensitivityIndex: responsivenessIndex).rounded()).normalised() // rounded to nearest or away from Zero, then normalised to 0-360 range
         if newHeadingSmoothed != headingSmoothed {
             headingSmoothed = newHeadingSmoothed
-            audioFeedbackModel.updateHeading(heading: headingSmoothed)
+            audioFeedbackModel?.updateHeadingPhrase(heading: headingSmoothed)
         }
         let newCorrectionAmount = headingSmoothed.bearingTo(to: headingTarget)
         if newCorrectionAmount != correctionAmount {
@@ -173,12 +143,6 @@ class SteeringModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         // urgency could have changed if tolerance was changed, even if the heading and correction did not
         correctionUrgency = urgency(correction: correctionAmount, tolerance: toleranceDegrees) // correction urgency can be between 0 (within tolerance window) and 3 (off by 3 x tolerance window or more)
-        audioFeedbackModel.updateUrgencyAndDirection(urgency: correctionUrgency, direction: correctionDirection)
-    }
-    
-    //CLLocationManagerDelegate
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        headingUpdatesTrue.add_reading(value: newHeading.trueHeading)
-        headingUpdatesMagnetic.add_reading(value: newHeading.magneticHeading)
+        audioFeedbackModel?.updateUrgencyAndDirection(urgency: correctionUrgency, direction: correctionDirection)
     }
 }

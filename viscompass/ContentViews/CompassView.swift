@@ -20,6 +20,7 @@ Use the settings view to change the frequency of the heading readout
 
 struct CompassView: View {
     @EnvironmentObject var steeringModel: SteeringModel
+    @EnvironmentObject var audioFeedbackModel: AudioFeedbackModel
     
     var body: some View {
         VStack {
@@ -30,10 +31,10 @@ struct CompassView: View {
                 Text(Int(steeringModel.headingSmoothed).description).font(.system(size: 150)).monospacedDigit()
             }.padding(EdgeInsets(top:0, leading:0, bottom:150, trailing:0))
             Spacer()
-            ResponsivenessPickerView()
+            HeadingSecsView()
         }
         .padding(5)
-        .onAppear(perform: { steeringModel.audioFeedbackModel.setFeedbackMode(mode: .compass) })
+        .onAppear(perform: { audioFeedbackModel.updateFeedbackMode(mode: .compass) })
     }
 
 }
