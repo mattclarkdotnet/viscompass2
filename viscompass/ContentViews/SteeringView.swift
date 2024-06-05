@@ -69,5 +69,6 @@ struct Previews_SteeringView_Previews: PreviewProvider {
     static var previews: some View {
         SteeringView()
             .environmentObject(SteeringModel())
+            .environmentObject(AudioFeedbackModel())
     }
 }
