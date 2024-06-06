@@ -22,7 +22,7 @@ When the boat is on course a feedback sound is played to reassure the helm.  To 
 
 When the boat is off course audio feedback will be given and the large coloured arrows will give visual feedback.  The tolerance picker is used to decide how far the boat needs to be off course before off course feedback is given.  The more the boat is off course the more insistent the feedback becomes.
 
-The tolerance  picker is used to set how far away from the target heading the boat needs to be before the off-course warnings start.
+The tolerance picker is used to set how far away from the target heading the boat needs to be before the off-course warnings start.
 
 The responsiveness picker is used to set how rapidly the app resposnds to changes in heading.  For a sailing boat in swell consider using super-slow or slow responsiveness.  For a motor boat in calm water consider using quick or very quick responsiveness.
 """
