@@ -52,8 +52,8 @@ struct NorthTypePickerView: View {
             }
             .pickerStyle(.segmented)
             .onChange(of: storage.northType) {
-                northType in
-                steeringModel.setNorthType(newNorthType: northType)
+                oldNorthType, newNorthType in
+                steeringModel.setNorthType(newNorthType: newNorthType)
             }
         }
     }
@@ -74,8 +74,8 @@ struct TackDegreesView: View {
             }
             .pickerStyle(.segmented)
             .onChange(of: storage.tackDegrees) {
-                tackDegrees in
-                steeringModel.setTackDegrees(newTackDegrees: tackDegrees)
+                oldTackDegrees, newTackDegrees in
+                steeringModel.setTackDegrees(newTackDegrees: newTackDegrees)
             }
         }
     }
@@ -96,8 +96,8 @@ struct HeadingSecsView: View {
             }
             .pickerStyle(.segmented)
             .onChange(of: storage.headingSecs) {
-                headingSecs in
-                audioFeedbackModel.updateHeadingFeedbackInterval(secs: TimeInterval(headingSecs))
+                oldHeadingSecs, newHeadingSecs in
+                audioFeedbackModel.updateHeadingFeedbackInterval(secs: TimeInterval(newHeadingSecs))
             }
         }
     }
@@ -118,8 +118,8 @@ struct TargetAdjustView: View {
             }
             .pickerStyle(.segmented)
             .onChange(of: storage.targetAdjustDegrees) {
-                targetAdjustDegrees in
-                steeringModel.setTargetAdjustDegrees(targetAdjustDegrees: targetAdjustDegrees)
+                oldTargetAdjustDegrees, newTargetAdjustDegrees in
+                steeringModel.setTargetAdjustDegrees(targetAdjustDegrees: newTargetAdjustDegrees)
             }
         }
     }
@@ -142,8 +142,8 @@ struct FeedbackPickerView: View {
             .accessibilityInputLabels(["On course feedback"])
             .pickerStyle(.segmented)
             .onChange(of: storage.feedbackType) {
-                feedbackType in
-                audioFeedbackModel.updateOnCourseFeedbackType(feedbacktype: feedbackType)
+                oldFeedbackType, newFeedbackType in
+                audioFeedbackModel.updateOnCourseFeedbackType(feedbacktype: newFeedbackType)
                 steeringModel.updateModel()
             }
         }
@@ -165,8 +165,8 @@ struct TolerancePickerView: View {
             }
             .pickerStyle(.segmented)
             .onChange(of: storage.toleranceDegrees) {
-                tolerance in
-                steeringModel.setTolerance(newTolerance: tolerance)
+                oldTolerance, newTolerance in
+                steeringModel.setTolerance(newTolerance: newTolerance)
             }
         }
     }
@@ -188,7 +188,7 @@ struct ResponsivenessPickerView: View {
             }
             .pickerStyle(.segmented)
             .onChange(of: storage.responsivenessIndex) {
-                newResponsiveness in
+                oldResponsiveness, newResponsiveness in
                 steeringModel.setResponsiveness(newResponsiveness)
             }
         }
