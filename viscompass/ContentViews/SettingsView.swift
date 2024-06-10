@@ -16,7 +16,7 @@ The "On course feedback" picker lets you choose between a steady drumbeat, a hea
 
 The "Tack through" picker sets the amount the target is changed by when long pressing on the target adjustment buttons on the steering view.
 
-The "North type" picker lets you chose between true and magnetic north.  True north is only available if the app has permission to access the location of the phone so it can look up the local variation.
+The "North type" picker lets us chose between true and magnetic north.  True north is only available if the app has permission to access the location of the phone so it can look up the local variation.
 
 The "Target buttons adjust by" picker changes how much the plus and minus buttons on the sterring view change the target heading by.
 
