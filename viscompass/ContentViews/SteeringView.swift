@@ -10,7 +10,7 @@ import SwiftUI
 
 let steeringHelpText =
 """
-The steering view gives audio feedback to guide you to a target heading.
+The steering view gives audio feedback to help you stay on target heading.
 
 To adjust the target heading use the buttons labelled "plus" and "minus" to change it in increments of 10 degrees.  This amount can be changed in the settings view.
 
