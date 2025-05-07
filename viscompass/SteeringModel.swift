@@ -39,6 +39,7 @@ class SteeringModel: ObservableObject {
     @Published private(set) var audioFeedbackOn: Bool = false
     @Published private(set) var correctionDirection: Turn = .none
     
+   
     private var toleranceDegrees: WholeDegrees = 10
     private var correctionUrgency: Int = 0 // restricted to between 0 and 3
     
@@ -46,9 +47,9 @@ class SteeringModel: ObservableObject {
     private var northType: NorthType
     private var tackDegrees: Int
     private var targetAdjustDegrees: Int
-    var modelUpdateTimer: Timer?
     private let store = SettingsStorage()
     private let compassModel = CompassModel()
+    var modelUpdateTimer: Timer? // public so the settings view can fire it when e.g. tolerances change
     var audioFeedbackModel: AudioFeedbackModel? = nil // will be set on load by the main view
     
     

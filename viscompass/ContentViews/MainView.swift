@@ -19,7 +19,7 @@ struct MainView: View {
     }
     
     var body: some View {
-        TabView(selection: $selection) {
+        TabView() {
             SteeringView()
                 .tabItem {
                     Label("Steer", systemImage: "helm")
