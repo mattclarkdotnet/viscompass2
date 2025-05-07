@@ -8,18 +8,18 @@
 import Foundation
 import AVFoundation
 
+
 // This class is responsible for actually making sounds
-class AudioGenerator: NSObject, AVSpeechSynthesizerDelegate {
+class AudioGenerator {
     private let speechSynthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
-    
     private var sndHigh: AVAudioPlayer?
     private var sndLow: AVAudioPlayer?
     private var sndNeutral: AVAudioPlayer?
     
     var headingPhrase: String = ""
     
-    override init() {
-        super.init()
+    init() {
+        //super.init()
         // Retrieve the shared audio session.
         logger.debug("Configuring audio session")
         let audioSession = AVAudioSession.sharedInstance()

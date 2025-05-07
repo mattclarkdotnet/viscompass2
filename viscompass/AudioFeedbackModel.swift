@@ -34,7 +34,7 @@ enum OnCourseFeedbackType: String {
 // This class is responsible for deciding what sounds to make and when
 // we don't make this observable, so as to avoid effing around with nested models for SwiftUI
 class AudioFeedbackModel: ObservableObject {
-    @Published private (set) var audioFeedbackOn: Bool = false
+    @Published private(set) var audioFeedbackOn: Bool = false
     
     private var audioFeedbackMode: AudioFeedbackMode = .steering
     private var onCourseFeedbackType: OnCourseFeedbackType  // set from store

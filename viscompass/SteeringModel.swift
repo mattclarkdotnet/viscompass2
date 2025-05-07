@@ -33,11 +33,11 @@ class CompassModel: NSObject, CLLocationManagerDelegate {
 
 
 class SteeringModel: ObservableObject {
-    @Published private (set) var headingSmoothed: WholeDegrees = 0  // these published values use Int as they are displayed in that format
-    @Published private (set) var headingTarget: WholeDegrees = 0
-    @Published private (set) var correctionAmount: WholeDegrees = 0
-    @Published private (set) var audioFeedbackOn: Bool = false
-    @Published private (set) var correctionDirection: Turn = .none
+    @Published private(set) var headingSmoothed: WholeDegrees = 0  // these published values use Int as they are displayed in that format
+    @Published private(set) var headingTarget: WholeDegrees = 0
+    @Published private(set) var correctionAmount: WholeDegrees = 0
+    @Published private(set) var audioFeedbackOn: Bool = false
+    @Published private(set) var correctionDirection: Turn = .none
     
     // Marking these published but private so the views invalidate when they change, but they aren't observed directly
     @Published private var toleranceDegrees: WholeDegrees = 10
