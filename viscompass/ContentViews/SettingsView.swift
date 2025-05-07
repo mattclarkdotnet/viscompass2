@@ -27,14 +27,15 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HeaderView(helpTitle: "Settings Help", helpText: settingsHelpText, showHeading: true)
-            Spacer()
-            FeedbackPickerView().padding([.top], 15)
-            TackDegreesView().padding([.top], 15)
-            NorthTypePickerView().padding([.top], 15)
-            TargetAdjustView().padding([.top], 15)
-            HeadingSecsView().padding([.top], 15)
-            ResponsivenessPickerView().padding([.top], 15)
-            ResetTargetWithAudioView().padding([.top], 15)
+            ScrollView {
+                FeedbackPickerView().padding([.top], 15)
+                TackDegreesView().padding([.top], 15)
+                NorthTypePickerView().padding([.top], 15)
+                TargetAdjustView().padding([.top], 15)
+                HeadingSecsView().padding([.top], 15)
+                ResponsivenessPickerView().padding([.top], 15)
+                ResetTargetWithAudioView().padding([.top], 15)
+            }
         }.padding(5)
     }
 }
