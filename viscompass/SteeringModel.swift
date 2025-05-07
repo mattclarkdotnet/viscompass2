@@ -39,15 +39,14 @@ class SteeringModel: ObservableObject {
     @Published private(set) var audioFeedbackOn: Bool = false
     @Published private(set) var correctionDirection: Turn = .none
     
-    // Marking these published but private so the views invalidate when they change, but they aren't observed directly
-    @Published private var toleranceDegrees: WholeDegrees = 10
-    @Published private var correctionUrgency: Int = 0 // restricted to between 0 and 3
+    private var toleranceDegrees: WholeDegrees = 10
+    private var correctionUrgency: Int = 0 // restricted to between 0 and 3
     
     private var responsivenessIndex: Int
     private var northType: NorthType
     private var tackDegrees: Int
     private var targetAdjustDegrees: Int
-    private var modelUpdateTimer: Timer?
+    var modelUpdateTimer: Timer?
     private let store = SettingsStorage()
     private let compassModel = CompassModel()
     var audioFeedbackModel: AudioFeedbackModel? = nil // will be set on load by the main view

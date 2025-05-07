@@ -144,7 +144,7 @@ struct FeedbackPickerView: View {
             .onChange(of: storage.feedbackType) {
                 oldFeedbackType, newFeedbackType in
                 audioFeedbackModel.updateOnCourseFeedbackType(feedbacktype: newFeedbackType)
-                steeringModel.updateModel()
+                steeringModel.modelUpdateTimer?.fire() // Force the feedback type change to happen now instead of waiting for the scheduled timer
             }
         }
     }
